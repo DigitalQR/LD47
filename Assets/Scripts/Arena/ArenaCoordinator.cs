@@ -5,14 +5,9 @@ using UnityEngine;
 using DQR.Types;
 
 [RequireComponent(typeof(ArenaBoard))]
-public class ArenaCoordinator : SingletonBehaviour<ArenaCoordinator>, IEvent_TileSelected
+public class ArenaCoordinator : SingletonBehaviour<ArenaCoordinator>
 {
 	protected override void SingletonInit()
 	{
-	}
-
-	private void OnTileSelected(ArenaTile tile)
-	{
-		Debug.Log("TEMP " + tile.Coord.ToString());
 	}
 }

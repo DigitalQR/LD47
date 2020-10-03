@@ -39,8 +39,15 @@ public class ArenaTile : MonoBehaviour
 		get => m_Content;
 		set
 		{
-			Assert.Format(m_Content == null, "Setting content for tile already containing '{0}'", m_Content);
+			if(m_Content != null)
+				Assert.Format(value == null, "Setting content '{0}' for tile already containing '{1}'", value, m_Content);
+
 			m_Content = value;
+
+			if (m_Content != null)
+				m_Content.transform.position = transform.position;
+
+			EventHandler.Invoke("OnTileContentChanged", this);
 		}
 	}
 
@@ -49,6 +56,6 @@ public class ArenaTile : MonoBehaviour
 		Assert.Format(m_IsBeingCosidered, "Tile '{0}' isn't being considered, but was selected", m_Coord);
 
 		if(m_IsBeingCosidered)
-			ArenaCoordinator.Instance.BroadcastMessage("OnTileSelected", this);
+			EventHandler.Invoke("OnTileSelected", this);
 	}
 }

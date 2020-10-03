@@ -30,9 +30,11 @@ namespace DQR
 			
 			//BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
 			BuildTargetGroup buildTarget = EditorUserBuildSettings.selectedBuildTargetGroup;
-			List<string> currentDefines = new List<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTarget).Split(';'));
-			
-			if (EditorUserBuildSettings.development)
+
+			// Remove any previous DQR defines
+			HashSet<string> currentDefines = new HashSet<string>(PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTarget).Split(';').Where((define) => !define.StartsWith("DQR_")));
+						
+			if (!BuildPipeline.isBuildingPlayer || EditorUserBuildSettings.development)
 			{
 				currentDefines.Add("DQR_DEV");
 
