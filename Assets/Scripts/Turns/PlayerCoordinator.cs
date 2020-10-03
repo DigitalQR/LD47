@@ -83,7 +83,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 							ClearConsideredTiles();
 							var attackAction = m_TempAttackData.AttackOptions[m_TempAttackData.m_SelectedAttackIndex];
 
-							foreach (var tile in attackAction.GatherConsideredTiles(currentPawn, this))
+							foreach (var tile in attackAction.GatherConsideredTiles(currentPawn))
 								tile.MarkAsConsidered();
 
 							m_TempAttackData.CurrentState = AttackData.State.AwaitingSelection;

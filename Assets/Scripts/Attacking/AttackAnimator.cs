@@ -19,7 +19,10 @@ public class AttackAnimator : MonoBehaviour
 	private bool m_MoveToTarget = false;
 
 	[SerializeField]
-	private float m_TargetOffset = 0.4f;
+	private float m_MoveTargetOffset = 0.3f;
+
+	[SerializeField]
+	private float m_MoveSpeedScale = 2.0f;
 
 	private AttackAction m_Action = null;
 	private AnimationState m_CurrentState;
@@ -47,7 +50,7 @@ public class AttackAnimator : MonoBehaviour
 					case AnimationState.Setup:
 						{
 							if (m_MoveToTarget && m_CurrentCasterAnim)
-								m_CurrentCasterAnim.StartWalkAnimation(m_CurrentTarget.transform.position + m_CurrentCaster.FacingDir * -m_TargetOffset);
+								m_CurrentCasterAnim.StartWalkAnimation(m_CurrentTarget.transform.position + m_CurrentCaster.FacingDir * -m_MoveTargetOffset, m_MoveSpeedScale);
 
 							m_CurrentState = AnimationState.MoveToTarget;
 							break;
@@ -68,7 +71,7 @@ public class AttackAnimator : MonoBehaviour
 								m_Action.ApplyCurrentAttack();
 
 								if (m_MoveToTarget && m_CurrentCasterAnim)
-									m_CurrentCasterAnim.StartWalkAnimation(m_CurrentCaster.CurrentTile.transform.position);
+									m_CurrentCasterAnim.StartWalkAnimation(m_CurrentCaster.CurrentTile.transform.position, m_MoveSpeedScale);
 
 								m_CurrentState = AnimationState.MoveBack;
 							}

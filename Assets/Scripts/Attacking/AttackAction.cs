@@ -74,6 +74,9 @@ public class AttackAction : MonoBehaviour
 	private AttackCategory m_Category = AttackCategory.None;
 
 	[SerializeField]
+	private int m_AttackCastBreadth = 1;
+
+	[SerializeField]
 	private int m_AttackCastRange = 1;
 
 	[SerializeField]
@@ -103,29 +106,56 @@ public class AttackAction : MonoBehaviour
 		get => Mathf.Max(0, m_CastCost);
 	}
 
-	public IEnumerable<ArenaTile> GatherConsideredTiles(Pawn caster, TeamTurnCoordinator coordinator)
+	public IEnumerable<ArenaTile> GatherConsideredTiles(Pawn caster)
 	{
-		IEnumerable<ArenaTile> tiles = new ArenaTile[0];
-		
-		var teamTiles = coordinator.GetTeamTiles();
-		var enemyTiles = coordinator.GetEnemyTiles();
-
+		List<ArenaTile> tiles = new List<ArenaTile>();
+				
 		if (m_CastTarget == AttackCastTarget.Self)
 		{
-			tiles = new ArenaTile[] { caster.CurrentTile };
+			tiles.Add(caster.CurrentTile);
 		}
-		else
+		if ((m_CastTarget & AttackCastTarget.AnyTeamTile) != 0)
 		{
-			if ((m_CastTarget | AttackCastTarget.AnyTeamTile) != 0)
-			{
-				tiles = tiles.Union(teamTiles);
+			var teamTiles = ArenaBoard.Instance.GetTilesForTeam(caster.TeamIndex);
 
-				if (!m_CastTarget.HasFlag(AttackCastTarget.Self))
-					tiles = tiles.Where((t) => t != caster.CurrentTile);
-			}
-			if ((m_CastTarget | AttackCastTarget.AnyEnemyTile) != 0)
+			if (m_CastTarget.HasFlag(AttackCastTarget.Self))
+				tiles.AddRange(teamTiles);
+			else
+				tiles.AddRange(teamTiles.Where((t) => t != caster.CurrentTile));
+		}
+
+		if ((m_CastTarget & AttackCastTarget.AnyEnemyTile) != 0)
+		{
+			void WalkLOS(Vector2Int baseCoord, int offset)
 			{
-				tiles = tiles.Union(enemyTiles);
+				for (int x = offset; x <= m_AttackCastRange; ++x)
+				{
+					Vector2Int coord = baseCoord + Vector2Int.Scale(caster.FacingCoordDir, new Vector2Int(x, 0));
+
+					if (ArenaBoard.Instance.TryGetTile(coord, out ArenaTile tile))
+					{
+						if (tile != caster.CurrentTile)
+						{
+							if (tile.TeamIndex != caster.TeamIndex)
+								tiles.Add(tile);
+
+							if (tile.HasContent)
+								return;
+						}
+					}
+				}
+			};
+
+			// Do LOS checks for enemy tiles
+			for (int y = -m_AttackCastBreadth; y <= m_AttackCastBreadth; ++y)
+			{
+				int offset = 0;
+
+				// If not in current row, start for 1 infront to not get blocked by alies in the same row
+				if (y != 0)
+					offset = 1;
+
+				WalkLOS(caster.CurrentCoords + new Vector2Int(0, y), offset);
 			}
 		}
 		

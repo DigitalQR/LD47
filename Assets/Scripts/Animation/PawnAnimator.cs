@@ -20,6 +20,7 @@ public class PawnAnimator : MonoBehaviour
 
 	private bool m_InWalkAnimation = false;
 	private Vector3 m_WalkTarget;
+	private float m_AnimationSpeedScale;
 
 	private void Start()
 	{
@@ -29,28 +30,32 @@ public class PawnAnimator : MonoBehaviour
 	private void Update()
 	{
 		if (m_InWalkAnimation)
-		{
-			Vector3 toTarget = m_WalkTarget - transform.position;
-			float distance = toTarget.magnitude;
-
-			// End animation
-			if (distance < m_TooCloseDistance)
-			{
-				transform.position = m_WalkTarget;
-				m_WalkTarget = Vector3.zero;
-				m_InWalkAnimation = false;
-				return;
-			}
-
-			Vector3 step = Vector3.ClampMagnitude(toTarget.normalized * Time.deltaTime * m_WalkSpeed, distance);
-			transform.position += step;
-		}
+			UpdateWalkAnimation();
 	}
 
-	public void StartWalkAnimation(Vector3 target)
+	private void UpdateWalkAnimation()
+	{
+		Vector3 toTarget = m_WalkTarget - transform.position;
+		float distance = toTarget.magnitude;
+
+		// End animation
+		if (distance < m_TooCloseDistance)
+		{
+			transform.position = m_WalkTarget;
+			m_WalkTarget = Vector3.zero;
+			m_InWalkAnimation = false;
+			return;
+		}
+
+		Vector3 step = Vector3.ClampMagnitude(toTarget.normalized * Time.deltaTime * m_WalkSpeed * m_AnimationSpeedScale, distance);
+		transform.position += step;
+	}
+
+	public void StartWalkAnimation(Vector3 target, float speedScale = 1.0f)
 	{
 		m_InWalkAnimation = true;
 		m_WalkTarget = target;
+		m_AnimationSpeedScale = speedScale;
 	}
 
 	public void SetFacingDirection(Vector2Int facingDir)
