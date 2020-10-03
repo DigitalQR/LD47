@@ -80,6 +80,7 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 			{
 				Pawn newPawn = Instantiate(prefab, transform);
 				newPawn.SetFacingDirection(GetAttackCoordForward());
+				newPawn.ApplyRandomVariantion();
 				tile.Content = newPawn.gameObject;
 
 				m_Pawns.Add(newPawn);

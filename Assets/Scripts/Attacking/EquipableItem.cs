@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DQR.Types;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,10 @@ public class EquipableItem : MonoBehaviour
 
 	[SerializeField]
 	private GameObject m_VisualsRoot = null;
+
+	[Header("Random Variation")]
+	[SerializeField]
+	private TintVariationCollection m_TintVariation = default;
 
 	public EquipableSlot TargetSlot
 	{
@@ -67,5 +72,10 @@ public class EquipableItem : MonoBehaviour
 			m_VisualsRoot.transform.localRotation = Quaternion.identity;
 			m_VisualsRoot.SetActive(true);
 		}
+	}
+
+	public void ApplyRandomVariantion()
+	{
+		m_TintVariation.ApplyVariationTo(gameObject);
 	}
 }

@@ -21,6 +21,7 @@ public class TESTEquip : MonoBehaviour
 		{
 			DoThing = false;
 			EquipableItem newItem = Instantiate(Item);
+			newItem.ApplyRandomVariantion();
 
 			foreach (var target in FindObjectsOfType<EquipableTarget>())
 			{

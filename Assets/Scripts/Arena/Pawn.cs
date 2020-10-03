@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Pawn : MonoBehaviour
 {
+	[Header("Random Variation")]
+	[SerializeField]
+	private TintVariationCollection m_TintVariation = default;
+
 	private PawnAnimator m_Animator = null;
 
 	private ArenaTile m_CurrentTile = null;
@@ -61,6 +65,11 @@ public class Pawn : MonoBehaviour
 			Assert.Message(m_CurrentTile, "Coords aren't known");
 			return m_CurrentTile.Coord;
 		}
+	}
+
+	public void ApplyRandomVariantion()
+	{
+		m_TintVariation.ApplyVariationTo(gameObject);
 	}
 
 	public bool InBlockingAnimating
