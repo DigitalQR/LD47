@@ -14,7 +14,7 @@ public class ArenaTileInteraction : MonoBehaviour
 	private ArenaTile m_Tile = null;
 	private bool m_IsHovering = false;
 	private bool m_JustHovered = false;
-
+	
 	private void Start()
 	{
 		m_Tile = GetComponent<ArenaTile>();
@@ -51,8 +51,10 @@ public class ArenaTileInteraction : MonoBehaviour
 	{
 		if (m_Tile.IsBeingCosidered)
 			m_JustHovered = true;
-	}
 
+		EventHandler.Invoke("OnTileHover", m_Tile);
+	}
+	
 	private void OnMouseUp()
 	{
 		if(m_Tile.IsBeingCosidered)

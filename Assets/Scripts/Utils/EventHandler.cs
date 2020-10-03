@@ -34,11 +34,16 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 	private static KnownEvent[] s_KnownEvents = new[]
 	{
 		new KnownEvent("OnTileSelected", typeof(ArenaTile)),
+		new KnownEvent("OnTileHover", typeof(ArenaTile)),
 		new KnownEvent("OnTileContentChanged", typeof(ArenaTile)),
 
 		new KnownEvent("OnTileCursorContentChanged", typeof(TileContentCursor)),
 
-		new KnownEvent("OnTurnStateChange", typeof(TurnState))
+		new KnownEvent("OnTurnStateChange", typeof(TurnState)),
+
+		new KnownEvent("OnPawnKilled", typeof(Pawn)),
+		new KnownEvent("OnPawnAttacked", typeof(DamageEvent)),
+		new KnownEvent("OnPawnDamaged", typeof(DamageEvent)),
 	};
 #endif
 	

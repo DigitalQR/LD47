@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EquipableTarget))]
+[RequireComponent(typeof(PawnHealth))]
 public class Pawn : MonoBehaviour
 {
 	[Header("Random Variation")]
 	[SerializeField]
 	private TintVariationCollection m_TintVariation = default;
-
+	
 	private PawnAnimator m_Animator = null;
+	private PawnHealth m_Health = null;
 	private EquipableTarget m_Equipment = null;
 
 	private int m_TeamIndex = -1;
@@ -21,6 +23,7 @@ public class Pawn : MonoBehaviour
 	{
 		m_Animator = GetComponent<PawnAnimator>();
 		m_Equipment = GetComponent<EquipableTarget>();
+		m_Health = GetComponent<PawnHealth>();
 	}
 
 	public ArenaTile CurrentTile
@@ -90,7 +93,13 @@ public class Pawn : MonoBehaviour
 
 	public void ReceiveDamage(DamageEvent damageEvent)
 	{
-		Debug.Log("Ouch " + damageEvent.DamageAmount);
+		m_Equipment.CurrentStats.ModifyRecievedEvent(damageEvent);
+		EventHandler.Invoke("OnPawnAttacked", damageEvent);
+
+		bool hasHit = Random.value <= damageEvent.Accuracy;
+
+		if (hasHit)
+			m_Health.ApplyDamage(damageEvent);
 	}
 
 	public void SetFacingDirection(Vector2Int facingDir)
