@@ -29,7 +29,7 @@ public struct TurnAction
 public class TurnManager : SingletonBehaviour<TurnManager>
 {
 	[SerializeField]
-	private TurnCoordinator[] m_Coordinators = null;
+	private List<TurnCoordinator> m_Coordinators = null;
 	
 	private TurnState m_CurrentState = TurnState.Inactive;
 	
@@ -42,7 +42,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	
 	private void Update()
     {
-		if (m_Coordinators == null || m_Coordinators.Length == 0)
+		if (m_Coordinators == null || m_Coordinators.Count == 0)
 			return;
 		
 		// Update decisions
@@ -50,9 +50,12 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 		{
 			var coordinator = m_CoordinatorQueue.Peek();
 
-			// Only update this decision at a frame, if pending
-			if (coordinator.GenerateDecisions(m_CurrentState) == TurnCoordinator.DecisionState.Pending)
-				return;
+			if (coordinator != null)
+			{
+				// Only update this decision at a frame, if pending
+				if (coordinator.GenerateDecisions(m_CurrentState) == TurnCoordinator.DecisionState.Pending)
+					return;
+			}
 
 			m_CoordinatorQueue.Dequeue();
 		}
@@ -90,9 +93,9 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 
 		UnityEngine.Debug.Log($"Next phase '{m_CurrentState}'");
 		EventHandler.Invoke("OnTurnStateChange", m_CurrentState);
-
+		
 		// Update coordinator queue (If requires input, prioritise)
-		foreach (var coordinator in m_Coordinators.OrderBy((c) => c.RequiresRealtimeInput ? 0 : 1))
+		foreach (var coordinator in m_Coordinators.OrderBy((c) => c.RequiresRealtimeInput ? 1 : 0))
 			m_CoordinatorQueue.Enqueue(coordinator);
 	}
 

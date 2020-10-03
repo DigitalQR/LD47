@@ -8,18 +8,14 @@ public class PlayerCoordinator : TeamTurnCoordinator
 {
 	private TileContentCursor m_TileCursor;
 
-	public GameObject m_TESTPrefab;
-	public int m_TESTCount;
-
+	public bool m_TESTEndTurn = false;
+	
 	protected override void Start()
 	{
 		base.Start();
 
 		m_TileCursor = GetComponent<TileContentCursor>();
 		m_TileCursor.enabled = false;
-
-		for (int i = 0; i < m_TESTCount; ++i)
-			InstantiatePawn(m_TESTPrefab);
 	}
 
 	public override bool RequiresRealtimeInput
@@ -35,7 +31,15 @@ public class PlayerCoordinator : TeamTurnCoordinator
 			return DecisionState.Pending;
 		}
 
-		//m_MovementManager.enabled = false;
+
+		if (m_TESTEndTurn)
+		{
+			m_TESTEndTurn = false;
+			m_TileCursor.enabled = false;
+			ClearConsideredTiles();
+			return DecisionState.Finished;
+		}
+
 		return DecisionState.Pending;
 	}
 

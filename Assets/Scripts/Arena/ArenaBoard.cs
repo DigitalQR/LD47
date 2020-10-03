@@ -91,6 +91,11 @@ public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 			tile.ClearConsideration();
 	}
 
+	public Vector3 GetTeamAttackDirection(int teamIndex)
+	{
+		return m_TeamDirections[teamIndex];
+	}
+
 	public IEnumerable<ArenaTile> GetTilesForTeam(int teamIndex)
 	{
 		return AllArenaTiles.Where((tile) => tile.TeamIndex == teamIndex);
@@ -99,5 +104,25 @@ public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 	public bool TryGetTile(Vector2Int coord, out ArenaTile tile)
 	{
 		return m_ArenaTiles.TryGetValue(coord, out tile);
+	}
+
+	private void Event_OnTileContentChanged(ArenaTile changeTile)
+	{
+		// Make sure old refs are cleanup
+		foreach (var tile in AllArenaTiles)
+		{
+			if (tile.HasContent && tile != changeTile && tile.Content == changeTile.Content)
+				tile.Content = null;
+		}
+	}
+
+	private void Event_OnTileCursorContentChanged(TileContentCursor cursor)
+	{
+		// Make sure old refs are cleanup
+		foreach (var tile in AllArenaTiles)
+		{
+			if (tile.HasContent && tile.Content == cursor.Content)
+				tile.Content = null;
+		}
 	}
 }

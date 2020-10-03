@@ -17,11 +17,13 @@ public class BreathAnimation : MonoBehaviour
 
 	private float m_Timer = 0.0f;
 	private Vector3 m_StartPosition;
+	private Vector3 m_StartScale;
 	private Vector3 m_FloorOffset;
 
 	private void Start()
 	{
 		m_StartPosition = transform.localPosition;
+		m_StartScale = transform.localScale;
 		m_FloorOffset = transform.position - m_FloorLocator.position;
 
 		m_Timer = Random.value;
@@ -34,7 +36,7 @@ public class BreathAnimation : MonoBehaviour
 		float s = Mathf.Sin(m_Timer * 2.0f * Mathf.PI * m_CycleDuration);
 		float breathAmount = (s + 1.0f) * 0.5f;
 
-		transform.localScale = Vector3.Lerp(m_MinScale, m_MaxScale, breathAmount);
+		transform.localScale = Vector3.Scale(m_StartScale, Vector3.Lerp(m_MinScale, m_MaxScale, breathAmount));
 		transform.localPosition = m_StartPosition + Vector3.Scale(m_FloorOffset, transform.localScale) - m_FloorOffset;
 
 	}

@@ -21,6 +21,23 @@ public class TileContentCursor : MonoBehaviour
 		get => m_Content != null;
 	}
 
+	public GameObject Content
+	{
+		get => m_Content;
+		set
+		{
+			if (m_Content != null)
+				Assert.Format(value == null, "Setting content '{0}' for cursor already containing '{1}'", value, m_Content);
+
+			m_Content = value;
+
+			if (m_Content != null)
+				m_Content.transform.position = transform.position;
+
+			EventHandler.Invoke("OnTileCursorContentChanged", this);
+		}
+	}
+
 	private void LateUpdate()
 	{
 		if (m_ContentTarget != null)
@@ -44,7 +61,6 @@ public class TileContentCursor : MonoBehaviour
 		var oldContent = m_Content;
 		var newContent = tile.Content;
 		
-		// Make sure tile.Content is set 2nd as it will fire of a event
 		m_Content = newContent;
 		tile.Content = oldContent;
 		EventHandler.Invoke("OnTileCursorContentChanged", this);
