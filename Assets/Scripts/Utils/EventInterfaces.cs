@@ -8,5 +8,5 @@ public interface IEventsList
 	void OnTileSelected(ArenaTile tile);
 	void OnTileContentChanged(ArenaTile tile);
 
-	void OnTurnPhaseChange(TurnPhase phase);
+	void OnTurnPhaseChange(TurnState phase);
 }

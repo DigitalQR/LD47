@@ -49,11 +49,13 @@ public class ArenaTileInteraction : MonoBehaviour
 
 	private void OnMouseOver()
 	{
-		m_JustHovered = true;
+		if (m_Tile.IsBeingCosidered)
+			m_JustHovered = true;
 	}
 
 	private void OnMouseUp()
 	{
-		m_Tile.SelectTile();
+		if(m_Tile.IsBeingCosidered)
+			m_Tile.SelectTile();
 	}
 }

@@ -10,7 +10,7 @@ namespace DQR.Models
 	{
 		[SerializeField]
 		private MeshSheet m_MeshSheet = null;
-
+		
 		private float m_Timer;
 
 		private MeshFilter m_CachedFilter;
@@ -22,6 +22,15 @@ namespace DQR.Models
 					m_CachedFilter = GetComponent<MeshFilter>();
 
 				return m_CachedFilter;
+			}
+		}
+
+		private void Start()
+		{
+			if (m_MeshSheet)
+			{
+				if (m_MeshSheet.PlayMode != MeshSheet.PlaybackMode.PlayOnce)
+					m_Timer = Random.Range(0.0f, m_MeshSheet.TotalDuration);
 			}
 		}
 

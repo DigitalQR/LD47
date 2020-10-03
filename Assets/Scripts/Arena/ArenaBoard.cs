@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using DQR.Types;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ArenaBoard : MonoBehaviour
+public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 {
 	[SerializeField]
 	private Vector2Int m_TeamAreaSize = new Vector2Int(3, 3);
@@ -87,7 +88,7 @@ public class ArenaBoard : MonoBehaviour
 	public void ClearConsideredTiles()
 	{
 		foreach (var tile in AllArenaTiles)
-			tile.IsBeingCosidered = false;
+			tile.ClearConsideration();
 	}
 
 	public IEnumerable<ArenaTile> GetTilesForTeam(int teamIndex)

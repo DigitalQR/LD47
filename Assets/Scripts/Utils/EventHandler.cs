@@ -36,7 +36,9 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 		new KnownEvent("OnTileSelected", typeof(ArenaTile)),
 		new KnownEvent("OnTileContentChanged", typeof(ArenaTile)),
 
-		new KnownEvent("OnTurnPhaseChange", typeof(TurnPhase))
+		new KnownEvent("OnTileCursorContentChanged", typeof(TileContentCursor)),
+
+		new KnownEvent("OnTurnStateChange", typeof(TurnState))
 	};
 #endif
 	

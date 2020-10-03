@@ -117,7 +117,7 @@ namespace DQR.Models
 					break;
 
 				case PlaybackMode.PingPong:
-					int steps = Mathf.FloorToInt(t / m_TotalUnscaledDuration);
+					t = Mathf.PingPong(t, m_TotalUnscaledDuration);
 					break;
 
 				default:

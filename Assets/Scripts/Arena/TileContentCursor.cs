@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementManager : MonoBehaviour
+public class TileContentCursor : MonoBehaviour
 {
 	[SerializeField]
 	private Transform m_CursorTarget = null;
@@ -41,9 +41,13 @@ public class MovementManager : MonoBehaviour
 	private void Event_OnTileSelected(ArenaTile tile)
 	{
 		// Swap contents
-		GameObject content = tile.Content;
-		tile.Content = m_Content;
-		m_Content = content;
+		var oldContent = m_Content;
+		var newContent = tile.Content;
+		
+		// Make sure tile.Content is set 2nd as it will fire of a event
+		m_Content = newContent;
+		tile.Content = oldContent;
+		EventHandler.Invoke("OnTileCursorContentChanged", this);
 	}
 
 	public void SetEnabled(bool state)

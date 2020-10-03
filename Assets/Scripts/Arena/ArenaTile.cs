@@ -31,7 +31,6 @@ public class ArenaTile : MonoBehaviour
 	public bool IsBeingCosidered
 	{
 		get => m_IsBeingCosidered;
-		set => m_IsBeingCosidered = value;
 	}
 
 	public GameObject Content
@@ -49,6 +48,21 @@ public class ArenaTile : MonoBehaviour
 
 			EventHandler.Invoke("OnTileContentChanged", this);
 		}
+	}
+
+	public bool HasContent
+	{
+		get => m_Content != null;
+	}
+
+	public void MarkAsConsidered()
+	{
+		m_IsBeingCosidered = true;
+	}
+
+	public void ClearConsideration()
+	{
+		m_IsBeingCosidered = false;
 	}
 
 	public void SelectTile()
