@@ -27,9 +27,26 @@ public class EquipableItem : MonoBehaviour
 	[SerializeField]
 	private TintVariationCollection m_TintVariation = default;
 
+	private AttackAction[] m_AttackActions = null;
+
+	private void Start()
+	{
+		m_AttackActions = GetComponentsInChildren<AttackAction>();
+	}
+
 	public EquipableSlot TargetSlot
 	{
 		get => m_TargetSlot;
+	}
+
+	public bool HasAttackActions
+	{
+		get => m_AttackActions != null && m_AttackActions.Length != 0;
+	}
+
+	public IEnumerable<AttackAction> AttackActions
+	{
+		get => m_AttackActions;
 	}
 
 	public void ApplyStatChanges(ref AttackStats stats)

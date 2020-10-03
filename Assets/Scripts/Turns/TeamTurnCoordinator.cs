@@ -63,6 +63,11 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		get => m_Pawns.Count;
 	}
 
+	public Pawn GetPawn(int index)
+	{
+		return index < m_Pawns.Count ? m_Pawns[index] : null;
+	}
+
 	public IEnumerable<Pawn> InstantiatePawns(Pawn prefab, int count)
 	{
 		List<Pawn> objs = new List<Pawn>();
@@ -79,6 +84,7 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 			if (!tile.HasContent)
 			{
 				Pawn newPawn = Instantiate(prefab, transform);
+				newPawn.TeamIndex = m_TeamIndex;
 				newPawn.SetFacingDirection(GetAttackCoordForward());
 				newPawn.ApplyRandomVariantion();
 				tile.Content = newPawn.gameObject;
@@ -114,13 +120,24 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		return new Vector2Int(dir.y, dir.x);
 	}
 
-	protected TurnActionState Action_WaitOnPawnAnimations()
+	protected TurnActionState Action_WaitOnPawnAnimations(int count)
 	{
 		foreach (var pawn in OwnedPawns)
 		{
 			if (pawn.InBlockingAnimating)
 				return TurnActionState.Pending;
 		}
+
+		return TurnActionState.Finished;
+	}
+
+	protected TurnActionState Action_ExecuteAttack(int count, Pawn caster, ArenaTile target, AttackAction attack)
+	{
+		if (count == 0)
+			attack.BeginAttack(caster, target);
+
+		if (attack.InBlockingAnimating)
+			return TurnActionState.Pending;
 
 		return TurnActionState.Finished;
 	}

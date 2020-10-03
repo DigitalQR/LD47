@@ -20,7 +20,7 @@ public class AICoordinator : TeamTurnCoordinator
 		return DecisionState.Finished;
 	}
 
-	private TurnActionState Action_MovePawns()
+	private TurnActionState Action_MovePawns(int count)
 	{
 		foreach (var pawn in OwnedPawns)
 			MovePawnToRandomTile(pawn);

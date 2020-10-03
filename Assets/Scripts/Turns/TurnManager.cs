@@ -20,7 +20,7 @@ public enum TurnActionState
 
 public struct TurnAction
 {
-	public delegate TurnActionState DecisionCallback();
+	public delegate TurnActionState DecisionCallback(int counter);
 
 	public int Priority;
 	public DecisionCallback Action;
@@ -35,6 +35,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	
 	private List<TurnAction> m_ActionQueue = new List<TurnAction>();
 	private Queue<TurnCoordinator> m_CoordinatorQueue = new Queue<TurnCoordinator>();
+	private int m_DecisionCounter = 0;
 
 	protected override void SingletonInit()
 	{
@@ -65,10 +66,11 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 		{
 			var action = m_ActionQueue[0];
 
-			if (action.Action() == TurnActionState.Pending)
+			if (action.Action(m_DecisionCounter++) == TurnActionState.Pending)
 				return;
 
 			m_ActionQueue.RemoveAt(0);
+			m_DecisionCounter = 0;
 		}
 
 		NextPhase();

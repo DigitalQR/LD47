@@ -46,7 +46,7 @@ public abstract class TurnCoordinator : MonoBehaviour
 		TurnManager.Instance.QueueAction(action);
 	}
 
-	protected void ClearConsideredTiles()
+	public void ClearConsideredTiles()
 	{
 		ArenaBoard.Instance.ClearConsideredTiles();
 	}

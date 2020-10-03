@@ -16,11 +16,13 @@ public class TileContentCursor : MonoBehaviour
 	
 	private GameObject m_Content = null;
 
+	private bool m_IsPaused = false;
+
 	public bool HasContent
 	{
 		get => m_Content != null;
 	}
-
+	
 	public GameObject Content
 	{
 		get => m_Content;
@@ -57,23 +59,26 @@ public class TileContentCursor : MonoBehaviour
 
 	private void Event_OnTileSelected(ArenaTile tile)
 	{
-		// Swap contents
-		var oldContent = m_Content;
-		var newContent = tile.Content;
-		
-		m_Content = newContent;
-		tile.Content = oldContent;
-		EventHandler.Invoke("OnTileCursorContentChanged", this);
+		if (!m_IsPaused) 
+		{           
+			// Swap contents
+			var oldContent = m_Content;
+			var newContent = tile.Content;
+
+			m_Content = newContent;
+			tile.Content = oldContent;
+			EventHandler.Invoke("OnTileCursorContentChanged", this);
+		}
 	}
 
-	public void SetEnabled(bool state)
+	public void SetPaused(bool paused)
 	{
-		if (enabled != state)
+		if (m_IsPaused != paused)
 		{
-			enabled = state;
+			m_IsPaused = paused;
 
-			if (state)
-				Assert.Format(HasContent, "Still contain content '{0}' when movement manager is being disabled", m_Content);
+			if (paused)
+				Assert.Format(!HasContent, "Still contain content '{0}' when movement manager is being disabled", m_Content);
 		}
 	}
 }

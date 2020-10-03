@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2035111234}
-  m_IndirectSpecularColor: {r: 131.13168, g: 162.57239, b: 215.29922, a: 1}
+  m_IndirectSpecularColor: {r: 131.19772, g: 162.48279, b: 214.93106, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TeamIndex: 0
   m_TESTPrefab: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
-  m_TESTCount: 3
+  m_TESTCount: 1
   m_TESTEndTurn: 0
 --- !u!114 &2028529137
 MonoBehaviour:
@@ -1418,3 +1418,60 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
+--- !u!1001 &2774993054006131723
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7.47842
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 9.270658
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.569315
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929964, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774993053177929967, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
+      propertyPath: m_Name
+      value: GO_Atk_Punch
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}

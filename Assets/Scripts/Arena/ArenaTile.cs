@@ -65,6 +65,23 @@ public class ArenaTile : MonoBehaviour
 		m_IsBeingCosidered = false;
 	}
 
+	public static int CoordDistance(Vector2Int a, Vector2Int b)
+	{
+		Vector2Int delta = a - b;
+		int distance = Mathf.Abs(delta.x) + Mathf.Abs(delta.y);
+		return distance;
+	}
+
+	public int GetCoordDistance(ArenaTile tile)
+	{
+		return CoordDistance(m_Coord, tile.m_Coord);
+	}
+
+	public int GetCoordDistance(Vector2Int coord)
+	{
+		return CoordDistance(m_Coord, coord);
+	}
+
 	public void SelectTile()
 	{
 		Assert.Format(m_IsBeingCosidered, "Tile '{0}' isn't being considered, but was selected", m_Coord);

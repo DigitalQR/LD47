@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DQR.Types;
+using System.Linq;
 
 public class EquipableTarget : MonoBehaviour
 {
@@ -10,6 +11,21 @@ public class EquipableTarget : MonoBehaviour
 	private SerializableDictionary<EquipableSlot, Transform> m_AvaliableSlots = null;
 
 	private Dictionary<EquipableSlot, EquipableItem> m_EquipedItems = new Dictionary<EquipableSlot, EquipableItem>();
+
+	public IEnumerable<EquipableItem> EquippedItems
+	{
+		get => m_EquipedItems.Values;
+	}
+
+	public bool HasAttackActions
+	{
+		get => EquippedItems.Where((i) => i.HasAttackActions).Any();
+	}
+
+	public IEnumerable<AttackAction> AttackActions
+	{
+		get => EquippedItems.SelectMany((i) => i.AttackActions);
+	}
 
 	public Transform GetSlotTransform(EquipableSlot slot)
 	{

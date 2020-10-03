@@ -30,10 +30,10 @@ public static class MaterialUtils
 }
 
 [System.Serializable]
-public struct TintVariationCollection
+public class TintVariationCollection
 {
 	[SerializeField]
-	private WeightedCollection<Color>[] m_Tints;
+	private WeightedCollection<Color>[] m_Tints = null;
 
 	public void ApplyVariationTo(GameObject obj)
 	{

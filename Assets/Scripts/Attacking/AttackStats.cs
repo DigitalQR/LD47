@@ -9,6 +9,7 @@ public struct AttackStats
 	public float DamageDealt;
 	public float DamageReduction;
 	public float Accuracy;
+	public float Speed;
 
 	public void ClampForUse()
 	{
@@ -16,6 +17,7 @@ public struct AttackStats
 		DamageDealt = Mathf.Min(0, DamageDealt);
 		DamageReduction = Mathf.Clamp01(DamageReduction);
 		Accuracy = Mathf.Clamp01(Accuracy);
+		Speed = Mathf.Min(0, Speed);
 	}
 
 	public AttackStats Merge(AttackStats other)
@@ -25,6 +27,7 @@ public struct AttackStats
 		output.DamageDealt += other.DamageDealt;
 		output.DamageReduction += other.DamageReduction;
 		output.Accuracy += other.Accuracy;
+		output.Speed += other.Speed;
 		return output;
 	}
 }
