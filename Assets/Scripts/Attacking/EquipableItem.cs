@@ -157,6 +157,10 @@ public class EquipableItem : MonoBehaviour
 		m_ItemName = m_NameOptions.SelectRandom();
 		m_TintVariation.ApplyVariationTo(gameObject);
 
+		int difficulty = Mathf.FloorToInt(EncounterManager.Instance.CurrentDifficulty);
+		if (difficulty > 0)
+			m_ItemName = m_ItemName + " [+" + difficulty + "]";
+
 		foreach (var action in AttackActions)
 			action.ApplyVariantion();
 	}

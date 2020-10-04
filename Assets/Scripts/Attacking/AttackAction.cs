@@ -1,4 +1,5 @@
 ﻿using DQR.Debug;
+using DQR.Types;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,9 @@ public class AttackAction : MonoBehaviour
 		Failed,
 		Finished
 	}
+
+	[SerializeField]
+	private WeightedCollection<string> m_PrefixOptions = default;
 
 	[SerializeField]
 	private string m_AttackName = "Untitled Attack";
@@ -247,16 +251,26 @@ public class AttackAction : MonoBehaviour
 
 			foreach (var targetPawn in GetAffectedPawns(m_CurrentCaster, m_CurrentTarget))
 			{
-				DamageEvent damageEvent = new DamageEvent();
-				damageEvent.Caster = m_CurrentCaster;
-				damageEvent.Category = m_Category;
-				damageEvent.DamageAmount = Random.Range(m_MinDamageAmount, m_MaxDamageAmount + 1);
-				damageEvent.Target = targetPawn;
-				damageEvent.Accuracy = m_Accuracy;
-				m_CurrentCaster.CurrentStats.ModifyDispatchedEvent(damageEvent);
+				int damageAmount = Random.Range(m_MinDamageAmount, m_MaxDamageAmount + 1);
 
-				m_DamagedPawns.Add(targetPawn);
-				targetPawn.ReceiveDamage(damageEvent);
+				if (damageAmount < 0)
+				{
+					targetPawn.ReceiveHeal(m_Accuracy , -damageAmount);
+				}
+				else
+				{
+
+					DamageEvent damageEvent = new DamageEvent();
+					damageEvent.Caster = m_CurrentCaster;
+					damageEvent.Category = m_Category;
+					damageEvent.DamageAmount = Random.Range(m_MinDamageAmount, m_MaxDamageAmount + 1);
+					damageEvent.Target = targetPawn;
+					damageEvent.Accuracy = m_Accuracy;
+					m_CurrentCaster.CurrentStats.ModifyDispatchedEvent(damageEvent);
+
+					m_DamagedPawns.Add(targetPawn);
+					targetPawn.ReceiveDamage(damageEvent);
+				}
 			}
 		}
 
@@ -271,8 +285,10 @@ public class AttackAction : MonoBehaviour
 
 	public void ApplyVariantion()
 	{
-		// TODO 
-		m_AttackName = "Sharp " + m_AttackName + " [+1]";
+		int difficulty = Mathf.FloorToInt(EncounterManager.Instance.CurrentDifficulty);
+
+		if(difficulty > 0)
+			m_AttackName = m_PrefixOptions.SelectRandom() + m_AttackName + " [+" + difficulty + "]";
 	}
 
 	public void ShowInfoPanel()

@@ -91,7 +91,7 @@ MonoBehaviour:
         m_SerializedCollections:
         - Weight: 1
           Items:
-          - Weight: 2
+          - Weight: 5
             Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
           - Weight: 1
             Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
@@ -103,7 +103,9 @@ MonoBehaviour:
         - Weight: 1
           Items:
           - Weight: 1
-            Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
+            Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 1f1865031ca17c1469e7e271af3983a3, type: 3}
           SubcollectionIndices: 
       ApplyVariationToWeapons: 0
   - MinDifficulty: 1
@@ -128,7 +130,11 @@ MonoBehaviour:
         - Weight: 1
           Items:
           - Weight: 1
-            Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
+            Item: {fileID: 3716808771752631078, guid: 06a0a9888b1d9bc4cb9da0e94147832c, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 1f1865031ca17c1469e7e271af3983a3, type: 3}
           SubcollectionIndices: 
       ApplyVariationToWeapons: 1
   - MinDifficulty: 2
@@ -156,6 +162,12 @@ MonoBehaviour:
           Items:
           - Weight: 1
             Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 9a2b4bb61ad518543884d92572b9d7b1, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 7865a5e3a4fe69c4ab50fd0bd25fcb94, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
           SubcollectionIndices: 
       ApplyVariationToWeapons: 1
   - MinDifficulty: 3
@@ -181,6 +193,53 @@ MonoBehaviour:
         m_SerializedCollections:
         - Weight: 1
           Items:
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 06a0a9888b1d9bc4cb9da0e94147832c, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 1f1865031ca17c1469e7e271af3983a3, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 7865a5e3a4fe69c4ab50fd0bd25fcb94, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 9a2b4bb61ad518543884d92572b9d7b1, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
+          SubcollectionIndices: 
+      ApplyVariationToWeapons: 1
+  - MinDifficulty: 4
+    PawnSettings:
+      MinPawnSpawns: 3
+      MaxPawnSpawns: 6
+      PawnOptions:
+        m_SerializedCollections:
+        - Weight: 1
+          Items:
+          - Weight: 1
+            Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+          - Weight: 1
+            Item: {fileID: 5731886465869359445, guid: d590b08ee76f4164c833aa79737ebfb7, type: 3}
+          - Weight: 1
+            Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
+          - Weight: 1
+            Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
+          SubcollectionIndices: 
+      MinEquipmentSpawns: 5
+      MaxEquipmentSpawns: 9
+      EquipmentOptions:
+        m_SerializedCollections:
+        - Weight: 1
+          Items:
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 06a0a9888b1d9bc4cb9da0e94147832c, type: 3}
+          - Weight: 1
+            Item: {fileID: 3716808771752631078, guid: 1f1865031ca17c1469e7e271af3983a3, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 7865a5e3a4fe69c4ab50fd0bd25fcb94, type: 3}
+          - Weight: 1
+            Item: {fileID: 4840510959403008586, guid: 9a2b4bb61ad518543884d92572b9d7b1, type: 3}
           - Weight: 1
             Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
           SubcollectionIndices: 

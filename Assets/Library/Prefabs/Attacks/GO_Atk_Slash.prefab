@@ -44,6 +44,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95991bb158981fd498687947ae6390a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PrefixOptions:
+    m_SerializedCollections:
+    - Weight: 1
+      Items:
+      - Weight: 3
+        Item: Aggresive
+      - Weight: 3
+        Item: Tame
+      - Weight: 3
+        Item: Active
+      - Weight: 3
+        Item: Quick
+      - Weight: 3
+        Item: Forceful
+      - Weight: 1
+        Item: Thoughtful
+      SubcollectionIndices: 
   m_AttackName: Slash
   m_CastCost: 1
   m_MinDamageAmount: 5
@@ -69,5 +86,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MoveToTarget: 1
+  m_AnimWaitStall: 0.1
   m_MoveTargetOffset: 0.3
   m_MoveSpeedScale: 2

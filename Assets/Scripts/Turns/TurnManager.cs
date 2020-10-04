@@ -152,4 +152,13 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	{
 		SetCurrentState(TurnState.Inactive);
 	}
+	
+	private void Event_OnTeamCoordinatorDefeat(TeamTurnCoordinator coordinator)
+	{
+		if (coordinator is PlayerCoordinator)
+		{
+			EventHandler.Invoke("OnGameOver");
+			gameObject.SetActive(false);
+		}
+	}
 }

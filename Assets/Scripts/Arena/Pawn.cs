@@ -121,6 +121,20 @@ public class Pawn : MonoBehaviour
 		}
 	}
 
+	public void ReceiveHeal(float accuracy, int amount)
+	{
+		bool hasHit = Random.value <= accuracy;
+
+		if (hasHit)
+		{
+			m_Health.ApplyHeal(amount);
+		}
+		else
+		{
+			PopupManager.Instance.CreatePopup3D("Miss", transform.position, 1.0f, Color.gray, FontStyle.Italic);
+		}
+	}
+
 	public void ReceiveDamage(DamageEvent damageEvent)
 	{
 		m_Equipment.CurrentStats.ModifyRecievedEvent(damageEvent);

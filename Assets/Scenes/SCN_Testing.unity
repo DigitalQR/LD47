@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2035111234}
-  m_IndirectSpecularColor: {r: 131.19772, g: 162.48279, b: 214.93106, a: 1}
+  m_IndirectSpecularColor: {r: 131.17673, g: 162.47339, b: 214.93546, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5063,8 +5063,8 @@ MonoBehaviour:
     m_AppendTemporary: 0
   m_MinGoodEncounterWait: 2
   m_MaxGoodEncounterWait: 4
-  m_TurnsForDifficultyIncrease: 2
-  m_DifficultyIncreaseAmount: 0.5
+  m_TurnsForDifficultyIncrease: 1
+  m_DifficultyIncreaseAmount: 0.3
 --- !u!114 &1608992008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6778,12 +6778,14 @@ MonoBehaviour:
       m_SerializedCollections:
       - Weight: 1
         Items:
-        - Weight: 0
+        - Weight: 3
           Item: {fileID: 4840510959403008586, guid: c47296fbeb26fc34ea98ee70be7cd005, type: 3}
-        - Weight: 0
+        - Weight: 3
           Item: {fileID: 3716808771752631078, guid: d5d041aac1a25324a975eebb1ad04299, type: 3}
-        - Weight: 1
+        - Weight: 3
           Item: {fileID: 3716808771752631078, guid: 1f1865031ca17c1469e7e271af3983a3, type: 3}
+        - Weight: 1
+          Item: {fileID: 4840510959403008586, guid: 9a2b4bb61ad518543884d92572b9d7b1, type: 3}
         SubcollectionIndices: 
     ApplyVariationToWeapons: 0
 --- !u!114 &2028529137

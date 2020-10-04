@@ -19,6 +19,9 @@ public class AttackAnimator : MonoBehaviour
 	private bool m_MoveToTarget = false;
 
 	[SerializeField]
+	private float m_AnimWaitStall = 0.1f;
+
+	[SerializeField]
 	private float m_MoveTargetOffset = 0.3f;
 
 	[SerializeField]
@@ -30,6 +33,8 @@ public class AttackAnimator : MonoBehaviour
 	private Pawn m_CurrentCaster = null;
 	private PawnAnimator m_CurrentCasterAnim = null;
 	private ArenaTile m_CurrentTarget = null;
+
+	private float m_StallTimer = 0.0f;
 
 	private void Start()
     {
@@ -52,6 +57,7 @@ public class AttackAnimator : MonoBehaviour
 							if (m_MoveToTarget && m_CurrentCasterAnim)
 								m_CurrentCasterAnim.StartWalkAnimation(m_CurrentTarget.transform.position + m_CurrentCaster.FacingDir * -m_MoveTargetOffset, m_MoveSpeedScale);
 
+							m_StallTimer = 0.0f;
 							m_CurrentState = AnimationState.MoveToTarget;
 							break;
 						}
@@ -65,6 +71,11 @@ public class AttackAnimator : MonoBehaviour
 
 					case AnimationState.Animation:
 						{
+							m_StallTimer += Time.deltaTime;
+
+							if (m_StallTimer >= m_AnimWaitStall)
+								break;
+
 							//TODO - Anim hookup
 							if (!m_CurrentCaster.InBlockingAnimating)
 							{

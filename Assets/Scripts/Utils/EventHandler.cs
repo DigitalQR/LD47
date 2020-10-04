@@ -54,6 +54,8 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 		new KnownEvent("OnEncounterBegin", typeof(EncounterType)),
 		new KnownEvent("OnEncounterEnd", typeof(EncounterType)),
 		new KnownEvent("OnEncounterInCameraView", typeof(FocusCamera)),
+
+		new KnownEvent("OnGameOver", null),
 	};
 #endif
 	
