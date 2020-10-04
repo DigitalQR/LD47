@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2035111234}
-  m_IndirectSpecularColor: {r: 131.15134, g: 162.54797, b: 215.19327, a: 1}
+  m_IndirectSpecularColor: {r: 131.16855, g: 162.52502, b: 215.10977, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5278,10 +5278,10 @@ MonoBehaviour:
           Items: []
           SubcollectionIndices: 
     m_AppendTemporary: 0
-  m_MinGoodEncounterWait: 2
-  m_MaxGoodEncounterWait: 4
-  m_TurnsForDifficultyIncrease: 3
-  m_DifficultyIncreaseAmount: 0.7
+  m_MinGoodEncounterWait: 3
+  m_MaxGoodEncounterWait: 5
+  m_TurnsForDifficultyIncrease: 2
+  m_DifficultyIncreaseAmount: 0.5
 --- !u!114 &1608992008
 MonoBehaviour:
   m_ObjectHideFlags: 0

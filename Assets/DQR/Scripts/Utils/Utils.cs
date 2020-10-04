@@ -36,12 +36,12 @@ namespace DQR
 						
 			if (!BuildPipeline.isBuildingPlayer || EditorUserBuildSettings.development)
 			{
-				currentDefines.Add("DQR_DEV");
-
-				//if (EditorUserBuildSettings.enableHeadlessMode) // Disable in server builds?
-				{
-					currentDefines.Add("DQR_ASSERTS");
-				}
+				//currentDefines.Add("DQR_DEV");
+				//
+				////if (EditorUserBuildSettings.enableHeadlessMode) // Disable in server builds?
+				//{
+				//	currentDefines.Add("DQR_ASSERTS");
+				//}
 			}
 
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTarget, string.Join(";", currentDefines));

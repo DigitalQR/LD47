@@ -61,7 +61,7 @@ public struct AttackStats
 
 	public void ModifyRecievedEvent(DamageEvent damageEvent)
 	{
-		damageEvent.DamageAmount = Mathf.Max(0, damageEvent.DamageAmount - DamageReduction);
+		damageEvent.DamageAmount = Mathf.Max(1, damageEvent.DamageAmount - DamageReduction);
 	}
 
 	private static string GetStatText(int baseStat, int fullStat, bool alwaysShowSign)

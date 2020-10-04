@@ -24,13 +24,13 @@ namespace DQR.Types
 		[SerializeField]
 		private List<KVP> m_Elements = new List<KVP>();
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 		[SerializeField, HideInInspector]
 		private KVP m_TemporaryKVP = new KVP();
 
 		[SerializeField, HideInInspector]
 		private bool m_AppendTemporary = false;
-#endif
+//#endif
 
 		public SerializableDictionary()
 		{ }
