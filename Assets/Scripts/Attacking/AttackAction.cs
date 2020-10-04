@@ -38,6 +38,7 @@ public enum AttackAffectedTargets
 	Self = 1,
 	Ally = 2,
 	Enemy = 4,
+	All = 7
 }
 
 public class DamageEvent
@@ -272,5 +273,36 @@ public class AttackAction : MonoBehaviour
 	{
 		// TODO 
 		m_AttackName = "Sharp " + m_AttackName + " [+1]";
+	}
+
+	public void ShowInfoPanel()
+	{
+		List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+
+		content.Add(new KeyValuePair<string, string>("Stamina Cost", "" + m_CastCost));
+		content.Add(new KeyValuePair<string, string>("Damage Avg.", "" + (m_MinDamageAmount + m_MaxDamageAmount) / 2));
+		content.Add(new KeyValuePair<string, string>("Accuracy", "" + Mathf.FloorToInt(m_Accuracy * 100.0f) + "%"));
+		content.Add(new KeyValuePair<string, string>("Damage Type", "" + (m_Category == AttackCategory.None ? "-" : m_Category.ToString())));
+		content.Add(new KeyValuePair<string, string>("Target Range", "" + m_AttackCastRange + " tiles"));
+		content.Add(new KeyValuePair<string, string>("AOE Range", "" + m_AttackAffectRange + " tiles"));
+
+		if (m_AffectedTargets.HasFlag(AttackAffectedTargets.All))
+		{
+			content.Add(new KeyValuePair<string, string>("Targets", "All"));
+		}
+		else if (m_AffectedTargets.HasFlag(AttackAffectedTargets.Ally))
+		{
+			content.Add(new KeyValuePair<string, string>("Targets", "Ally"));
+		}
+		else if (m_AffectedTargets.HasFlag(AttackAffectedTargets.Self))
+		{
+			content.Add(new KeyValuePair<string, string>("Targets", "Self"));
+		}
+		else if (m_AffectedTargets.HasFlag(AttackAffectedTargets.Enemy))
+		{
+			content.Add(new KeyValuePair<string, string>("Targets", "Enemy"));
+		}
+
+		InfoPanelManager.Instance.OpenPanel(m_AttackName, "Attack", content);
 	}
 }

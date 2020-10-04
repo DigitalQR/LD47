@@ -36,6 +36,8 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	private TurnCoordinator m_PreviousCoordinator = null;
 	private int m_DecisionCounter = 0;
 
+	private int m_TutorialCounter = 0;
+
 	protected override void SingletonInit()
 	{
 	}
@@ -114,11 +116,14 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 
 		if (EncounterManager.Instance.IsEncounterActive && EncounterManager.Instance.EncounterCount == 1)
 		{
-			Vector3 popupLocation = EncounterManager.Instance.CurrentEncounterContainer.transform.position;
-			if (m_CurrentState == TurnState.Movement)
-				PopupManager.Instance.CreateHeadingPopup3D("Movement", "Move closer to attack or fall back to defend", popupLocation, 2.0f);
-			else if (m_CurrentState == TurnState.Attacking)
-				PopupManager.Instance.CreateHeadingPopup3D("Attack", "!", popupLocation, 2.0f);
+			if (m_TutorialCounter++ < 2)
+			{
+				Vector3 popupLocation = EncounterManager.Instance.CurrentEncounterContainer.transform.position;
+				if (m_CurrentState == TurnState.Movement)
+					PopupManager.Instance.CreateHeadingPopup3D("Movement", "Move closer to attack or fall back to defend", popupLocation, 2.0f);
+				else if (m_CurrentState == TurnState.Attacking)
+					PopupManager.Instance.CreateHeadingPopup3D("Attack", "!", popupLocation, 2.0f);
+			}
 		}
 	}
 
@@ -140,7 +145,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	public void QueueAction(TurnAction action)
 	{
 		m_ActionQueue.Add(action);
-		m_ActionQueue.Sort((a, b) => a.Priority - b.Priority);
+		m_ActionQueue.Sort((a, b) => b.Priority - a.Priority);
 	}
 
 	private void Event_OnEncounterBegin(EncounterType type)

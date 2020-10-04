@@ -8,7 +8,7 @@ using System.Linq;
 public class EquipableTarget : MonoBehaviour
 {
 	[SerializeField]
-	private AttackStats m_BaseStats = default;
+	private DifficultyAdjustedAttackStats m_AdjustedStats = default;
 
 	[SerializeField]
 	private SerializableDictionary<EquipableSlot, Transform> m_AvaliableSlots = null;
@@ -17,6 +17,8 @@ public class EquipableTarget : MonoBehaviour
 	private AttackAction[] m_DefaultAttacks = null;
 
 	private Dictionary<EquipableSlot, EquipableItem> m_EquippedItems = new Dictionary<EquipableSlot, EquipableItem>();
+	private AttackStats m_VariationStats = default;
+	private bool m_HasValidVariation = false;
 
 	public IEnumerable<EquipableItem> EquippedItems
 	{
@@ -43,14 +45,23 @@ public class EquipableTarget : MonoBehaviour
 
 	public AttackStats BaseStats
 	{
-		get => m_BaseStats;
+		get
+		{
+			if (!m_HasValidVariation)
+			{
+				m_VariationStats = m_AdjustedStats.Next();
+				m_HasValidVariation = true;
+			}
+
+			return m_VariationStats;
+		}
 	}
 
 	public AttackStats CurrentStats
 	{
 		get
 		{
-			AttackStats stats = m_BaseStats;
+			AttackStats stats = BaseStats;
 			ApplyStatChanges(ref stats);
 			stats.ClampForUse();
 			return stats;
@@ -91,5 +102,30 @@ public class EquipableTarget : MonoBehaviour
 	{
 		foreach (var pair in m_EquippedItems)
 			pair.Value.ApplyStatChanges(ref stats);
+	}
+
+	public void IncreaseBaseStats(AttackStats delta)
+	{
+		m_VariationStats = BaseStats.Merge(delta);
+	}
+
+	public IEnumerable<KeyValuePair<string, string>> GetPanelContent(bool hideDetails)
+	{
+		List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+
+		if (!hideDetails)
+			content.AddRange(AttackStats.GetPanelContent(BaseStats, CurrentStats));
+		else
+			content.Add(new KeyValuePair<string, string>("Stats", "?"));
+
+		foreach (var slot in m_AvaliableSlots.Keys)
+		{
+			if (m_EquippedItems.TryGetValue(slot, out EquipableItem item))
+				content.Add(new KeyValuePair<string, string>(slot.ToString(), item.ItemName));
+			else
+				content.Add(new KeyValuePair<string, string>(slot.ToString(), "-"));
+		}
+
+		return content;
 	}
 }

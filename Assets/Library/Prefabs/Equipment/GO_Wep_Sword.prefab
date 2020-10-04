@@ -106,13 +106,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f7a51fc581a9564db28c152a3283a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_NameOptions:
+    m_SerializedCollections:
+    - Weight: 1
+      Items:
+      - Weight: 4
+        Item: Sword
+      - Weight: 1
+        Item: Saber
+      SubcollectionIndices: 
   m_TargetSlot: 0
-  m_StatsDelta:
-    MaxHealth: 0
-    DamageDealt: 0
-    DamageReduction: 0
-    Accuracy: 0
-    Speed: 0
+  m_AdjustedStats:
+    BaseStats:
+      MaxHealth: 0
+      DamageDealt: 2
+      DamageReduction: 0
+      Accuracy: 0
+      Speed: 0
+    RandomRange:
+      MaxHealth: 0
+      DamageDealt: 5
+      DamageReduction: 1
+      Accuracy: 6
+      Speed: 0
   m_VisualsRoot: {fileID: 4840510959308376144}
   m_TintVariation:
     m_Tints:

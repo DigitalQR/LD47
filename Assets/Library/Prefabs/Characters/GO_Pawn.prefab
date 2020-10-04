@@ -335,6 +335,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31db8413bdc7ba43add550d450ad39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_NameOptions:
+    m_SerializedCollections:
+    - Weight: 1
+      Items:
+      - Weight: 1
+        Item: Wiltha
+      - Weight: 1
+        Item: Willisophelia
+      - Weight: 1
+        Item: Annag
+      - Weight: 1
+        Item: Abaanna
+      - Weight: 1
+        Item: Williwave
+      - Weight: 1
+        Item: Willisslight
+      - Weight: 1
+        Item: Wila
+      - Weight: 1
+        Item: Grranna
+      - Weight: 1
+        Item: Hellwillis
+      - Weight: 1
+        Item: Willislick
+      - Weight: 1
+        Item: Annamus
+      - Weight: 1
+        Item: Wandanna
+      - Weight: 1
+        Item: Annaford
+      - Weight: 1
+        Item: Hammasllis
+      - Weight: 1
+        Item: Dracowillis
+      - Weight: 1
+        Item: Angoodness
+      - Weight: 1
+        Item: Vikna
+      - Weight: 1
+        Item: Cheekyan
+      - Weight: 1
+        Item: Williswood
+      - Weight: 1
+        Item: Dave
+      SubcollectionIndices: 
   m_TintVariation:
     m_Tints:
     - m_SerializedCollections:
@@ -425,12 +470,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de24ec16a42d764e9052ebaca0f2e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BaseStats:
-    MaxHealth: 10
-    DamageDealt: 0
-    DamageReduction: 0
-    Accuracy: 1
-    Speed: 0
+  m_AdjustedStats:
+    BaseStats:
+      MaxHealth: 10
+      DamageDealt: 3
+      DamageReduction: 3
+      Accuracy: 1
+      Speed: 5
+    RandomRange:
+      MaxHealth: 2
+      DamageDealt: 2
+      DamageReduction: 2
+      Accuracy: 2
+      Speed: 2
   m_AvaliableSlots:
     m_Elements:
     - Key: 0

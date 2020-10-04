@@ -24,6 +24,9 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 	}
 
 	[SerializeField]
+	private DifficultyAdjustedAttackStats m_OwnedPawnStatsDelta = default;
+
+	[SerializeField]
 	private int m_TeamIndex = 0;
 
 	[SerializeField]
@@ -181,7 +184,7 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 				Pawn newPawn = Instantiate(prefab, transform);
 				newPawn.TeamIndex = m_TeamIndex;
 				newPawn.SetFacingDirection(GetAttackCoordForward());
-				newPawn.ApplyRandomVariantion();
+				newPawn.ApplyRandomVariantion(m_OwnedPawnStatsDelta.Next());
 				tile.Content = newPawn.gameObject;
 
 				m_Pawns.Add(newPawn);

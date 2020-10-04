@@ -1,4 +1,5 @@
 ﻿using DQR.Debug;
+using DQR.Types;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,12 @@ public class Pawn : MonoBehaviour
 {
 	[Header("Random Variation")]
 	[SerializeField]
+	private WeightedCollection<string> m_NameOptions = default;
+
+	[SerializeField]
 	private TintVariationCollection m_TintVariation = default;
-	
+
+	private string m_PawnName = null;
 	private PawnAnimator m_Animator = null;
 	private PawnHealth m_Health = null;
 	private EquipableTarget m_Equipment = null;
@@ -24,6 +29,11 @@ public class Pawn : MonoBehaviour
 		m_Animator = GetComponent<PawnAnimator>();
 		m_Equipment = GetComponent<EquipableTarget>();
 		m_Health = GetComponent<PawnHealth>();
+	}
+
+	public string PawnName
+	{
+		get => m_PawnName;
 	}
 
 	public ArenaTile CurrentTile
@@ -44,6 +54,11 @@ public class Pawn : MonoBehaviour
 	{
 		get => m_TeamIndex;
 		set => m_TeamIndex = value;
+	}
+
+	public AttackStats BaseStats
+	{
+		get => m_Equipment.BaseStats;
 	}
 
 	public AttackStats CurrentStats
@@ -139,13 +154,23 @@ public class Pawn : MonoBehaviour
 		}
 	}
 	
-	public void ApplyRandomVariantion()
+	public void ApplyRandomVariantion(AttackStats instanceStatsDelta)
 	{
+		m_PawnName = m_NameOptions.SelectRandom();
 		m_TintVariation.ApplyVariationTo(gameObject);
+		GetComponent<EquipableTarget>().IncreaseBaseStats(instanceStatsDelta);
 	}
 
 	public bool InBlockingAnimating
 	{
 		get => m_Animator && m_Animator.InBlockingAnimating;
+	}
+
+	public void ShowInfoPanel()
+	{
+		List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+		content.Add(new KeyValuePair<string, string>("Health", "" + m_Health.CurrentHealth));
+		content.AddRange(m_Equipment.GetPanelContent(TeamIndex != 0));
+		InfoPanelManager.Instance.OpenPanel(m_PawnName, "Creature", content);
 	}
 }

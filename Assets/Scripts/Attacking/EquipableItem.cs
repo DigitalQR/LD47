@@ -15,12 +15,16 @@ public enum EquipableSlot
 
 public class EquipableItem : MonoBehaviour
 {
+	[SerializeField]
+	private WeightedCollection<string> m_NameOptions = default;
+
 	[Header("Visuals")]
 	[SerializeField]
 	private EquipableSlot m_TargetSlot = EquipableSlot.Weapon;
 
 	[SerializeField]
-	private AttackStats m_StatsDelta = default;
+	private DifficultyAdjustedAttackStats m_AdjustedStats = default;
+		
 
 	[SerializeField]
 	private GameObject m_VisualsRoot = null;
@@ -40,11 +44,24 @@ public class EquipableItem : MonoBehaviour
 	[SerializeField]
 	private DifficultyGroup<MoveSet> m_MoveSetOptions = null;
 
+	private string m_ItemName = null;
 	private List<AttackAction> m_AttackActions = null;
-	
+	private AttackStats m_VariationStats = default;
+	private bool m_HasValidVariation = false;
+
 	public EquipableSlot TargetSlot
 	{
 		get => m_TargetSlot;
+	}
+
+	public string ItemName
+	{
+		get
+		{
+			if (m_ItemName == null)
+				m_ItemName = m_NameOptions.SelectValue(0.0f);
+			return m_ItemName;
+		}
 	}
 
 	public bool HasAttackActions
@@ -79,7 +96,7 @@ public class EquipableItem : MonoBehaviour
 
 	public void ApplyStatChanges(ref AttackStats stats)
 	{
-		stats = stats.Merge(m_StatsDelta);
+		stats = stats.Merge(m_HasValidVariation ? m_VariationStats : m_AdjustedStats.BaseStats);
 	}
 
 	public void OnEquiped(EquipableTarget target, Transform slot)
@@ -121,6 +138,11 @@ public class EquipableItem : MonoBehaviour
 
 	public void ApplyVariantion()
 	{
+		m_HasValidVariation = true;
+		
+		m_VariationStats = m_AdjustedStats.Next();
+
+		m_ItemName = m_NameOptions.SelectRandom();
 		m_TintVariation.ApplyVariationTo(gameObject);
 
 		foreach (var action in AttackActions)

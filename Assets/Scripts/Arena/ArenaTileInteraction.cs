@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(ArenaTile))]
 public class ArenaTileInteraction : MonoBehaviour
 {
+	private static ArenaTile s_DudTile = null;
+
 	[SerializeField]
 	private GameObject m_HoverObject = null;
 
@@ -18,10 +20,23 @@ public class ArenaTileInteraction : MonoBehaviour
 	private void Start()
 	{
 		m_Tile = GetComponent<ArenaTile>();
+
+		if (s_DudTile == null)
+		{
+			var obj = new GameObject();
+			obj.SetActive(false);
+			obj.name = "Tile dud";
+			s_DudTile = obj.AddComponent<ArenaTile>();
+		}
 	}
 
 	private void Update()
 	{
+		if (m_IsHovering && !m_JustHovered)
+		{
+			EventHandler.Invoke("OnTileHover", s_DudTile);
+		}
+
 		m_IsHovering = false;
 		if (m_JustHovered)
 		{

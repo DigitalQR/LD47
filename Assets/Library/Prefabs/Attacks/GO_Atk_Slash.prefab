@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackName: Slash
   m_CastCost: 1
-  m_MinDamageAmount: 10
-  m_MaxDamageAmount: 16
+  m_MinDamageAmount: 5
+  m_MaxDamageAmount: 10
   m_Accuracy: 0.95
   m_Category: 1
   m_AttackCastBreadth: 1

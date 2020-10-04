@@ -91,6 +91,14 @@ public class UIButtonInteractions : MonoBehaviour
 	{
 		ViewButtonGroup(m_EndEncounterGroup);
 	}
+	
+	private void Event_OnTileHover(ArenaTile tile)
+	{
+		if (tile.HasContent && tile.Content.TryGetComponent(out Pawn pawn))
+			pawn.ShowInfoPanel();
+		else
+			InfoPanelManager.Instance.Close();
+	}
 
 	public void Button_Attack()
 	{

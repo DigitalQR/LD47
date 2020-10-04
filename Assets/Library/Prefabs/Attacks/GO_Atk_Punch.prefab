@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttackName: Punch
   m_CastCost: 1
-  m_MinDamageAmount: 3
-  m_MaxDamageAmount: 6
+  m_MinDamageAmount: 2
+  m_MaxDamageAmount: 4
   m_Accuracy: 1
   m_Category: 0
   m_AttackCastBreadth: 1
