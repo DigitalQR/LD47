@@ -59,6 +59,9 @@ public class AttackAction : MonoBehaviour
 	}
 
 	[SerializeField]
+	private string m_AttackName = "Untitled Attack";
+
+	[SerializeField]
 	private int m_CastCost = 1;
 
 	[SerializeField]
@@ -90,7 +93,7 @@ public class AttackAction : MonoBehaviour
 
 	[SerializeField]
 	private AttackAffectedTargets m_AffectedTargets = AttackAffectedTargets.Enemy;
-
+	
 	private AttackAnimator m_Animator = null;
 	private Pawn m_CurrentCaster = null;
 	private ArenaTile m_CurrentTarget = null;
@@ -99,6 +102,11 @@ public class AttackAction : MonoBehaviour
 	private void Start()
 	{
 		m_Animator = GetComponent<AttackAnimator>();
+	}
+
+	public string AttackName
+	{
+		get => m_AttackName;
 	}
 
 	public int CastCost
@@ -255,5 +263,11 @@ public class AttackAction : MonoBehaviour
 	public bool InBlockingAnimating
 	{
 		get => (m_Animator && m_Animator.InBlockingAnimating) || (m_DamagedPawns != null && m_DamagedPawns.Where((p) => p.InBlockingAnimating).Any());
+	}
+
+	public void ApplyVariantion()
+	{
+		// TODO 
+		m_AttackName = "Sharp " + m_AttackName + " [+1]";
 	}
 }

@@ -111,6 +111,15 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 				SetCurrentState(TurnState.Movement);
 				break;
 		}
+
+		if (EncounterManager.Instance.IsEncounterActive && EncounterManager.Instance.EncounterCount == 1)
+		{
+			Vector3 popupLocation = EncounterManager.Instance.CurrentEncounterContainer.transform.position;
+			if (m_CurrentState == TurnState.Movement)
+				PopupManager.Instance.CreateHeadingPopup3D("Movement", "Move closer to attack or fall back to defend", popupLocation, 2.0f);
+			else if (m_CurrentState == TurnState.Attacking)
+				PopupManager.Instance.CreateHeadingPopup3D("Attack", "!", popupLocation, 2.0f);
+		}
 	}
 
 	private void SetCurrentState(TurnState state)

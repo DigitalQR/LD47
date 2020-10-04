@@ -50,9 +50,19 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 		get => m_CurrentEncounter;
 	}
 
+	public bool IsEncounterActive
+	{
+		get => m_CurrentEncounter != null;
+	}
+
 	public EncounterType CurrentEncounterType
 	{
 		get => m_CurrentEncounterType;
+	}
+
+	public int EncounterCount
+	{
+		get => m_EncounterCount;
 	}
 
 	public float CurrentDifficulty
@@ -69,6 +79,9 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 	{
 		if (m_CurrentEncounter)
 		{
+			if(m_CurrentEncounterType == EncounterType.Enemies)
+				PopupManager.Instance.CreateHeadingPopup3D("Clear!", "Prepare and then move further into the dungeon", m_CurrentEncounter.transform.position, 2.0f);
+
 			EventHandler.Invoke("OnEncounterEnd", m_CurrentEncounterType);
 
 			if (m_PreviousEncounter != null)
@@ -84,6 +97,9 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 		Assert.Message(m_CurrentEncounter == null, "Encounter still active");
 
 		int current = m_EncounterCount++;
+
+		if (current == 0)
+			QueueGoodEncounter();
 
 		if (current != 0 && current % m_TurnsForDifficultyIncrease == 0)
 			m_CurrentDifficulty += m_DifficultyIncreaseAmount;

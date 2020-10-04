@@ -22,34 +22,68 @@ public class AICoordinator : TeamTurnCoordinator
 
 	private TurnActionState Action_MovePawns(int count)
 	{
-		foreach (var pawn in OwnedPawns)
-			MovePawnToRandomTile(pawn);
+		var moveConfig = SelectConfiguration();
+
+		if (moveConfig != null)
+		{
+			foreach (var pawn in OwnedPawns)
+				pawn.CurrentTile.Content = null;
+
+			foreach (var pawn in OwnedPawns)
+				pawn.MoveToTile(moveConfig[pawn], true);
+		}
 
 		return TurnActionState.Finished;
 	}
 
-	protected void MovePawnToRandomTile(Pawn pawn)
+	private Dictionary<Pawn, ArenaTile> GenerateRandomConfiguration()
 	{
-		var tiles = GetTeamTiles().ToArray();
-
-		// Try for a bit but give up after a while
-		for (int i = 0; i < 10; ++i)
+		Dictionary<Pawn, ArenaTile> targets = new Dictionary<Pawn, ArenaTile>();
+		HashSet<ArenaTile> lockedTiles = new HashSet<ArenaTile>();
+		
+		foreach (var pawn in OwnedPawns)
 		{
-			int index = Random.Range(0, tiles.Length);
-			var tile = tiles[index];
+			var validTiles = GetMovementTilesFor(pawn).Where((t) => !lockedTiles.Contains(t)).ToArray();
 
-			if (tile.HasContent)
+			// Pawn had nowhere to go
+			if (validTiles.Length == 0)
+				return null;
+
+			int rand = Random.Range(0, validTiles.Length);
+
+			var tile = validTiles[rand];
+			lockedTiles.Add(tile);
+			targets.Add(pawn, tile);
+		}
+
+		return targets;
+	}
+
+	private float CaclulateMovementScore(Dictionary<Pawn, ArenaTile> config)
+	{
+		return 1.0f;
+	}
+
+	private Dictionary<Pawn, ArenaTile> SelectConfiguration(int countToTest = 10)
+	{
+		Dictionary<Pawn, ArenaTile> currBest = null;
+		float bestScore = 0.0f;
+
+		for (int i = 0; i < countToTest; ++i)
+		{
+			var test = GenerateRandomConfiguration();
+			if (test != null)
 			{
-				// Have decided to place where we already are
-				if (tile.Content == pawn)
-					return;
-			}
-			else
-			{
-				// Found an empty tile
-				pawn.MoveToTile(tile, true);
-				return;
+				float score = CaclulateMovementScore(test);
+
+				if (currBest == null || score > bestScore)
+				{
+					currBest = test;
+					bestScore = score;
+				}
 			}
 		}
+
+		return currBest;
 	}
 }

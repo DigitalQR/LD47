@@ -66,7 +66,7 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 
 			foreach (var pawn in m_Pawns)
 			{
-				var pawnTiles = teamTiles.Where((t) => t.GetCoordDistance(pawn.CurrentTile) <= m_MaxMoveDistance);
+				var pawnTiles = teamTiles.Where((t) => CalcMoveDistance(t, pawn.CurrentTile) <= m_MaxMoveDistance);
 				m_PawnMovementOption.Add(pawn, pawnTiles.ToArray());
 			}
 		}
@@ -74,6 +74,12 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		return base.GenerateDecisions(turnState);
 	}
 
+	private int CalcMoveDistance(ArenaTile a, ArenaTile b)
+	{
+		Vector2Int delta = a.Coord - b.Coord;
+		return Mathf.Max(Mathf.Abs(delta.x), Mathf.Abs(delta.y));
+	}
+	
 	public IEnumerable<ArenaTile> GetTeamTiles()
 	{
 		return ArenaBoard.Instance.AllArenaTiles.Where((t) => t.TeamIndex == m_TeamIndex);

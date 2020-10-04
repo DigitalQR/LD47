@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2774993053177929965}
   - component: {fileID: 2774993053177929966}
   m_Layer: 0
-  m_Name: GO_Atk_Punch
+  m_Name: GO_Atk_Slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,12 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95991bb158981fd498687947ae6390a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AttackName: Punch
+  m_AttackName: Slash
   m_CastCost: 1
-  m_MinDamageAmount: 3
-  m_MaxDamageAmount: 6
-  m_Accuracy: 1
-  m_Category: 0
+  m_MinDamageAmount: 10
+  m_MaxDamageAmount: 16
+  m_Accuracy: 0.95
+  m_Category: 1
   m_AttackCastBreadth: 1
   m_AttackCastRange: 3
   m_AttackAffectRange: 0

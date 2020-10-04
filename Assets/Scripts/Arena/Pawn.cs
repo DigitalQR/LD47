@@ -104,7 +104,13 @@ public class Pawn : MonoBehaviour
 		bool hasHit = Random.value <= damageEvent.Accuracy;
 
 		if (hasHit)
+		{
 			m_Health.ApplyDamage(damageEvent);
+		}
+		else
+		{
+			PopupManager.Instance.CreatePopup3D("Miss", transform.position, 1.0f, Color.gray, FontStyle.Italic);
+		}
 	}
 
 	public void SetFacingDirection(Vector2Int facingDir)

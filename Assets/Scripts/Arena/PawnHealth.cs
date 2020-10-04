@@ -49,14 +49,19 @@ public class PawnHealth : MonoBehaviour
 	{
 		if (m_IsDead)
 			return;
-		
+
+		int startHealth = m_CurrentHealth;
+
 		m_CurrentHealth -= damageEvent.DamageAmount;
 		if (m_CurrentHealth <= 0)
 		{
 			m_CurrentHealth = 0;
 			m_IsDead = true;
 		}
-			
+
+		int delta = m_CurrentHealth - startHealth;
+		PopupManager.Instance.CreatePopup3D("" + delta, transform.position, 1.0f, Color.red);
+
 		EventHandler.Invoke("OnPawnDamaged", damageEvent);
 
 		if (m_IsDead)
@@ -68,6 +73,10 @@ public class PawnHealth : MonoBehaviour
 		if (m_IsDead)
 			return;
 
+		int startHealth = m_CurrentHealth;
 		m_CurrentHealth = Mathf.Min(m_CurrentHealth + amount, MaxHealth);
+
+		int delta = m_CurrentHealth - startHealth;
+		PopupManager.Instance.CreatePopup3D("+" + delta, transform.position, 1.0f, Color.green);
 	}
 }

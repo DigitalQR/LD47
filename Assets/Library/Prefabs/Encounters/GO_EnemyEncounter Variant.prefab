@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TeamIndex: 1
+  m_MaxMoveDistance: 1
 --- !u!114 &4833161871324968878
 MonoBehaviour:
   m_ObjectHideFlags: 0

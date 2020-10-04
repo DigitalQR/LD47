@@ -1,6 +1,7 @@
 ﻿using DQR.Types;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum EquipableSlot
@@ -14,6 +15,7 @@ public enum EquipableSlot
 
 public class EquipableItem : MonoBehaviour
 {
+	[Header("Visuals")]
 	[SerializeField]
 	private EquipableSlot m_TargetSlot = EquipableSlot.Weapon;
 
@@ -22,18 +24,24 @@ public class EquipableItem : MonoBehaviour
 
 	[SerializeField]
 	private GameObject m_VisualsRoot = null;
-
-	[Header("Random Variation")]
+			
 	[SerializeField]
 	private TintVariationCollection m_TintVariation = default;
 
-	private AttackAction[] m_AttackActions = null;
-
-	private void Start()
+	[System.Serializable]
+	private class MoveSet
 	{
-		m_AttackActions = GetComponentsInChildren<AttackAction>();
+		public int MinCount = 0;
+		public int MaxCount = 0;
+		public WeightedCollection<AttackAction> Actions = null;
 	}
 
+	[Header("Difficulty Scaling")]
+	[SerializeField]
+	private DifficultyGroup<MoveSet> m_MoveSetOptions = null;
+
+	private List<AttackAction> m_AttackActions = null;
+	
 	public EquipableSlot TargetSlot
 	{
 		get => m_TargetSlot;
@@ -41,12 +49,32 @@ public class EquipableItem : MonoBehaviour
 
 	public bool HasAttackActions
 	{
-		get => m_AttackActions != null && m_AttackActions.Length != 0;
+		get => AttackActions.Any();
 	}
 
 	public IEnumerable<AttackAction> AttackActions
 	{
-		get => m_AttackActions;
+		get
+		{
+			if (m_AttackActions == null)
+			{
+				MoveSet moveset = m_MoveSetOptions.GetCurrent();
+				HashSet<AttackAction> actionsToSpawn = new HashSet<AttackAction>();
+				int count = Random.Range(moveset.MinCount, moveset.MaxCount + 1);
+
+				for (int i = 0; i < count; ++i)
+					actionsToSpawn.Add(moveset.Actions.SelectRandom());
+
+				m_AttackActions = new List<AttackAction>();
+				foreach (var action in actionsToSpawn)
+				{
+					AttackAction newAction = Instantiate(action, transform);
+					m_AttackActions.Add(newAction);
+				}
+			}
+
+			return m_AttackActions;
+		}
 	}
 
 	public void ApplyStatChanges(ref AttackStats stats)
@@ -94,5 +122,8 @@ public class EquipableItem : MonoBehaviour
 	public void ApplyVariantion()
 	{
 		m_TintVariation.ApplyVariationTo(gameObject);
+
+		foreach (var action in AttackActions)
+			action.ApplyVariantion();
 	}
 }
