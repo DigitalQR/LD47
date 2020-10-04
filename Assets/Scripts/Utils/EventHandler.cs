@@ -27,7 +27,7 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 			if (param == null)
 				return false;
 
-			return Param == param.GetType();
+			return Param.IsAssignableFrom(param.GetType());
 		}
 	}
 
@@ -40,6 +40,7 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 		new KnownEvent("OnTileCursorContentChanged", typeof(TileContentCursor)),
 
 		new KnownEvent("OnTurnStateChange", typeof(TurnState)),
+		new KnownEvent("OnTeamCoordinatorDefeat", typeof(TeamTurnCoordinator)),
 
 		new KnownEvent("OnPawnKilled", typeof(Pawn)),
 		new KnownEvent("OnPawnAttacked", typeof(DamageEvent)),

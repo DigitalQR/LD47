@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Pawn))]
 [RequireComponent(typeof(EquipableTarget))]
 public class PawnHealth : MonoBehaviour
 {
+	private Pawn m_Pawn = null;
 	private EquipableTarget m_Equipment = null;
 
 	private int m_CurrentHealth = 1;
@@ -12,13 +14,25 @@ public class PawnHealth : MonoBehaviour
 
 	private void Start()
 	{
+		m_Pawn = GetComponent<Pawn>();
 		m_Equipment = GetComponent<EquipableTarget>();
 		m_CurrentHealth = m_Equipment.CurrentStats.MaxHealth;
+	}
+
+	private void Update()
+	{
+		if (IsDead && !m_Pawn.InBlockingAnimating)
+			Destroy(gameObject);
 	}
 
 	public int CurrentHealth
 	{
 		get => m_CurrentHealth;
+	}
+
+	public bool IsDead
+	{
+		get => m_IsDead;
 	}
 
 	public int MaxHealth
@@ -51,6 +65,9 @@ public class PawnHealth : MonoBehaviour
 
 	public void ApplyHeal(int amount)
 	{
+		if (m_IsDead)
+			return;
+
 		m_CurrentHealth = Mathf.Min(m_CurrentHealth + amount, MaxHealth);
 	}
 }

@@ -14,7 +14,13 @@ public abstract class TurnCoordinator : MonoBehaviour
 
 	protected virtual void Start()
 	{
-		
+		TurnManager.Instance.RegisterCoordinator(this);
+	}
+
+	protected virtual void OnDestroy()
+	{
+		if(TurnManager.IsValid)
+			TurnManager.Instance.UnregisterCoordinator(this);
 	}
 
 	public abstract bool RequiresRealtimeInput

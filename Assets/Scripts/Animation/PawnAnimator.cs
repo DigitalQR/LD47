@@ -34,7 +34,7 @@ public class PawnAnimator : MonoBehaviour
 	private Vector3 m_WalkTarget;
 	private float m_AnimationSpeedScale;
 
-	private float m_AnimHealth = 0.0f;
+	private float m_AnimHealth = 1.0f;
 	private bool m_HealthDefaultShow = false;
 
 	private void Start()

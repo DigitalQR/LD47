@@ -61,6 +61,11 @@ public class Pawn : MonoBehaviour
 		get => m_Equipment && m_Equipment.HasAttackActions;
 	}
 
+	public bool IsPendingDestroy
+	{
+		get => m_Health.IsDead && InBlockingAnimating;
+	}
+
 	public IEnumerable<AttackAction> AttackActions
 	{
 		get => m_Equipment.AttackActions;

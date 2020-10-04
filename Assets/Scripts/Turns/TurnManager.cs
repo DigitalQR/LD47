@@ -28,9 +28,7 @@ public struct TurnAction
 
 public class TurnManager : SingletonBehaviour<TurnManager>
 {
-	[SerializeField]
-	private List<TurnCoordinator> m_Coordinators = null;
-	
+	private List<TurnCoordinator> m_Coordinators = new List<TurnCoordinator>();
 	private TurnState m_CurrentState = TurnState.Inactive;
 	
 	private List<TurnAction> m_ActionQueue = new List<TurnAction>();
@@ -40,7 +38,19 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	protected override void SingletonInit()
 	{
 	}
-	
+
+	public void RegisterCoordinator(TurnCoordinator coordinator)
+	{
+		Assert.Condition(!m_Coordinators.Contains(coordinator));
+		m_Coordinators.Add(coordinator);
+	}
+
+	public void UnregisterCoordinator(TurnCoordinator coordinator)
+	{
+		Assert.Condition(m_Coordinators.Contains(coordinator));
+		m_Coordinators.Remove(coordinator);
+	}
+
 	private void Update()
     {
 		if (m_Coordinators == null || m_Coordinators.Count == 0)

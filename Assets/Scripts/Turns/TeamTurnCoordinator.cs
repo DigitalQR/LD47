@@ -35,7 +35,8 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 	{
 		if (OwnedPawnCount == 0)
 		{
-			Debug.Log("Decide with 0 pawns huh?");
+			EventHandler.Invoke("OnTeamCoordinatorDefeat", this);
+
 			m_PreviousKnownState = turnState;
 			return DecisionState.Finished;
 		}
@@ -133,6 +134,9 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 
 	protected TurnActionState Action_ExecuteAttack(int count, Pawn caster, ArenaTile target, AttackAction attack)
 	{
+		if (caster == null || caster.IsPendingDestroy)
+			return TurnActionState.Finished;
+
 		if (count == 0)
 			attack.BeginAttack(caster, target);
 

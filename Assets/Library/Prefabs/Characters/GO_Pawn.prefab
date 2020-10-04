@@ -425,7 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BaseStats:
-    MaxHealth: 40
+    MaxHealth: 10
     DamageDealt: 0
     DamageReduction: 0
     Accuracy: 1
