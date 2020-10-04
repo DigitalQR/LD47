@@ -11,6 +11,9 @@ public class UIButtonInteractions : MonoBehaviour
 	[SerializeField]
 	private UIAttackInteractions m_AttackInteractions = null;
 
+	[SerializeField]
+	private UIInventory m_InventoryInteractions = null;
+
 	[Header("Buttons")]
 	[SerializeField]
 	private GameObject[] m_AttackGroup = null;
@@ -71,6 +74,8 @@ public class UIButtonInteractions : MonoBehaviour
 
 	private void Event_OnTurnStateChange(TurnState state)
 	{
+		CloseAnything();
+
 		if (state == TurnState.Attacking)
 			ViewButtonGroup(m_AttackGroup);
 		else if(state == TurnState.Movement)
@@ -100,8 +105,17 @@ public class UIButtonInteractions : MonoBehaviour
 			InfoPanelManager.Instance.Close();
 	}
 
+	private void CloseAnything()
+	{
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
+		m_InventoryInteractions.Close();
+	}
+
+
 	public void Button_Attack()
 	{
+		m_InventoryInteractions.Close();
+
 		if (m_CurrentCoordinator && m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
 		{
 			m_AttackInteractions.ToggleOpen(m_CurrentCoordinator);
@@ -111,11 +125,12 @@ public class UIButtonInteractions : MonoBehaviour
 	public void Button_Bag()
 	{
 		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
+		m_InventoryInteractions.ToggleOpen(m_CurrentCoordinator);
 	}
 
 	public void Button_Pass()
 	{
-		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
+		CloseAnything();
 
 		if (m_CurrentCoordinator)
 		{
@@ -128,12 +143,12 @@ public class UIButtonInteractions : MonoBehaviour
 
 	public void Button_Continue()
 	{
-		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
+		CloseAnything();
 		EncounterManager.Instance.SpawnNextEncounter();
 	}
 
 	public void Button_MainMenu()
 	{
-		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
+		CloseAnything();
 	}
 }

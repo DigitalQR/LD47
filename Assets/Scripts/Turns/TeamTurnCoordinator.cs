@@ -101,6 +101,11 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		return new ArenaTile[0];
 	}
 
+	public int TeamIndex
+	{
+		get => m_TeamIndex;
+	}
+
 	public IEnumerable<Pawn> OwnedPawns
 	{
 		get => m_Pawns;

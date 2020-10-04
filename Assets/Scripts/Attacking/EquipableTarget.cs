@@ -25,6 +25,11 @@ public class EquipableTarget : MonoBehaviour
 		get => m_EquippedItems.Values;
 	}
 
+	public IEnumerable<EquipableSlot> SupportedSlots
+	{
+		get => m_AvaliableSlots.Keys;
+	}
+
 	public bool HasAttackActions
 	{
 		get => EquippedItems.Where((i) => i.HasAttackActions).Any() || m_DefaultAttacks.Any();
@@ -74,6 +79,11 @@ public class EquipableTarget : MonoBehaviour
 			return slotTransform;
 
 		return null;
+	}
+
+	public bool TryGetItem(EquipableSlot slot,  out EquipableItem item)
+	{
+		return m_EquippedItems.TryGetValue(slot, out item);
 	}
 
 	public bool TryEquipItem(EquipableItem item)

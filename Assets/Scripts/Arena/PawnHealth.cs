@@ -22,7 +22,10 @@ public class PawnHealth : MonoBehaviour
 	private void Update()
 	{
 		if (IsDead && !m_Pawn.InBlockingAnimating)
+		{
+			EventHandler.Invoke("OnPawnKilled", GetComponent<Pawn>());
 			Destroy(gameObject);
+		}
 	}
 
 	public int CurrentHealth
@@ -63,9 +66,6 @@ public class PawnHealth : MonoBehaviour
 		PopupManager.Instance.CreatePopup3D("" + delta, transform.position, 1.0f, Color.red);
 
 		EventHandler.Invoke("OnPawnDamaged", damageEvent);
-
-		if (m_IsDead)
-			EventHandler.Invoke("OnPawnKilled", GetComponent<Pawn>());
 	}
 
 	public void ApplyHeal(int amount)

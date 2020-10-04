@@ -64,35 +64,42 @@ public struct AttackStats
 		damageEvent.DamageAmount = Mathf.Max(0, damageEvent.DamageAmount - DamageReduction);
 	}
 
-	private static string GetStatText(int baseStat, int fullStat)
+	private static string GetStatText(int baseStat, int fullStat, bool alwaysShowSign)
 	{
+		string format = "";
+
 		if (fullStat == baseStat)
-			return fullStat.ToString();
+			format = fullStat.ToString();
 		else
 		{
-			return fullStat + " (" + baseStat + (fullStat < baseStat ? "-" : "+") + Mathf.Abs(fullStat - baseStat) + ")";
+			format = fullStat + " (" + baseStat + (fullStat < baseStat ? "-" : "+") + Mathf.Abs(fullStat - baseStat) + ")";
 		}
+
+		if (alwaysShowSign && fullStat >= 0)
+			return "+" + format;
+
+		return format;
 	}
 
-	private static string GetStatText(float baseStat, float fullStat)
+	private static string GetStatText(float baseStat, float fullStat, bool alwaysShowSign)
 	{
-		return GetStatText(Mathf.RoundToInt(baseStat), Mathf.RoundToInt(fullStat));
+		return GetStatText(Mathf.RoundToInt(baseStat), Mathf.RoundToInt(fullStat), alwaysShowSign);
 	}
 
-	public static IEnumerable<KeyValuePair<string, string>> GetPanelContent(AttackStats baseStats)
+	public static IEnumerable<KeyValuePair<string, string>> GetPanelContent(AttackStats baseStats, bool alwaysShowSign = false)
 	{
-		return GetPanelContent(baseStats, baseStats);
+		return GetPanelContent(baseStats, baseStats, alwaysShowSign);
 	}
 
-	public static IEnumerable<KeyValuePair<string, string>> GetPanelContent(AttackStats baseStats, AttackStats fullStats)
+	public static IEnumerable<KeyValuePair<string, string>> GetPanelContent(AttackStats baseStats, AttackStats fullStats, bool alwaysShowSign = false)
 	{
 		return new KeyValuePair<string, string>[]
 		{
-			new KeyValuePair<string, string>("Max Health", GetStatText(baseStats.MaxHealth, fullStats.MaxHealth)),
-			new KeyValuePair<string, string>("Attack", GetStatText(baseStats.DamageDealt, fullStats.DamageDealt)),
-			new KeyValuePair<string, string>("Defence", GetStatText(baseStats.DamageReduction, fullStats.DamageReduction)),
-			new KeyValuePair<string, string>("Accuracy", GetStatText(baseStats.Accuracy * 100, fullStats.Accuracy * 100) + "%"),
-			new KeyValuePair<string, string>("Speed", GetStatText(baseStats.Accuracy * 100, fullStats.Accuracy * 100)),
+			new KeyValuePair<string, string>("Max Health", GetStatText(baseStats.MaxHealth, fullStats.MaxHealth, alwaysShowSign)),
+			new KeyValuePair<string, string>("Attack", GetStatText(baseStats.DamageDealt, fullStats.DamageDealt, alwaysShowSign)),
+			new KeyValuePair<string, string>("Defence", GetStatText(baseStats.DamageReduction, fullStats.DamageReduction, alwaysShowSign)),
+			new KeyValuePair<string, string>("Accuracy", GetStatText(baseStats.Accuracy * 100, fullStats.Accuracy * 100, alwaysShowSign) + "%"),
+			new KeyValuePair<string, string>("Speed", GetStatText(baseStats.Accuracy * 100, fullStats.Accuracy * 100, alwaysShowSign)),
 		};
 	}
 }

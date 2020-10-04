@@ -36,6 +36,11 @@ public class Pawn : MonoBehaviour
 		get => m_PawnName;
 	}
 
+	public EquipableTarget Equipment
+	{
+		get => m_Equipment;
+	}
+
 	public ArenaTile CurrentTile
 	{
 		get => m_CurrentTile;

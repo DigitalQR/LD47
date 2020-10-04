@@ -69,6 +69,11 @@ public class EquipableItem : MonoBehaviour
 		get => AttackActions.Any();
 	}
 
+	public AttackStats DeltaStats
+	{
+		get => m_HasValidVariation ? m_VariationStats : m_AdjustedStats.BaseStats;
+	}
+
 	public IEnumerable<AttackAction> AttackActions
 	{
 		get
@@ -96,7 +101,7 @@ public class EquipableItem : MonoBehaviour
 
 	public void ApplyStatChanges(ref AttackStats stats)
 	{
-		stats = stats.Merge(m_HasValidVariation ? m_VariationStats : m_AdjustedStats.BaseStats);
+		stats = stats.Merge(DeltaStats);
 	}
 
 	public void OnEquiped(EquipableTarget target, Transform slot)
@@ -147,5 +152,25 @@ public class EquipableItem : MonoBehaviour
 
 		foreach (var action in AttackActions)
 			action.ApplyVariantion();
+	}
+	
+	public void ShowInfoPanel()
+	{
+		List<KeyValuePair<string, string>> content = new List<KeyValuePair<string, string>>();
+
+		content.Add(new KeyValuePair<string, string>("Modifiers", ""));
+		content.AddRange(AttackStats.GetPanelContent(DeltaStats, true));
+
+		if (HasAttackActions)
+		{
+			content.Add(new KeyValuePair<string, string>("Attacks", ""));
+
+			foreach (var attack in AttackActions)
+			{
+				content.Add(new KeyValuePair<string, string>("", attack.AttackName));
+			}
+		}
+
+		InfoPanelManager.Instance.OpenPanel(ItemName, m_TargetSlot.ToString(), content);
 	}
 }
