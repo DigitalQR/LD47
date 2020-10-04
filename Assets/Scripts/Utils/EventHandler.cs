@@ -40,6 +40,8 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 		new KnownEvent("OnTileCursorContentChanged", typeof(TileContentCursor)),
 
 		new KnownEvent("OnTurnStateChange", typeof(TurnState)),
+		new KnownEvent("OnCoordinatorTurnBegin", typeof(TurnCoordinator)),
+		new KnownEvent("OnCoordinatorTurnEnd", typeof(TurnCoordinator)),
 		new KnownEvent("OnTeamCoordinatorDefeat", typeof(TeamTurnCoordinator)),
 
 		new KnownEvent("OnPawnKilled", typeof(Pawn)),

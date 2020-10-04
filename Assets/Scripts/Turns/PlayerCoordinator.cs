@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DQR.Debug;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,15 +18,14 @@ public class PlayerCoordinator : TeamTurnCoordinator
 
 		public State CurrentState;
 		public AttackAction[] AttackOptions;
-		public int m_SelectedAttackIndex;
-		public ArenaTile m_SelectedTile;
+		public int SelectedAttackIndex;
+		public ArenaTile SelectedTile;
 
 	};
 
 	private TileContentCursor m_TileCursor;
-
-	public bool m_TESTEndTurn = false;
-
+	private bool m_PassTurnFlag = false;
+	
 	private int m_CurrentPawnIndex = 0;
 	private AttackData m_TempAttackData = default;
 
@@ -52,6 +52,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		ClearConsideredTiles();
 		m_CurrentPawnIndex++;
 		m_TempAttackData = default;
+		m_TempAttackData.SelectedAttackIndex = -1;
 	}
 
 	protected override DecisionState GenerateDecisionsInternal(TurnState turnState)
@@ -67,7 +68,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		if (turnState == TurnState.Attacking)
 		{
 			Pawn currentPawn = GetCurrentDecisionPawn();
-			if (currentPawn && currentPawn.HasAttackActions)
+			if (currentPawn)
 			{
 				switch (m_TempAttackData.CurrentState)
 				{
@@ -81,23 +82,27 @@ public class PlayerCoordinator : TeamTurnCoordinator
 					case AttackData.State.ViewSelected:
 						{
 							ClearConsideredTiles();
-							var attackAction = m_TempAttackData.AttackOptions[m_TempAttackData.m_SelectedAttackIndex];
 
-							foreach (var tile in attackAction.GatherConsideredTiles(currentPawn))
-								tile.MarkAsConsidered();
+							if (m_TempAttackData.SelectedAttackIndex >= 0)
+							{
+								var attackAction = m_TempAttackData.AttackOptions[m_TempAttackData.SelectedAttackIndex];
 
-							m_TempAttackData.CurrentState = AttackData.State.AwaitingSelection;
+								foreach (var tile in attackAction.GatherConsideredTiles(currentPawn))
+									tile.MarkAsConsidered();
+
+								m_TempAttackData.CurrentState = AttackData.State.AwaitingSelection;
+							}
 							break;
 						}
 
 					case AttackData.State.AwaitingSelection:
 						{
-							if (m_TempAttackData.m_SelectedTile)
+							if (m_TempAttackData.SelectedTile)
 							{
 								// Attack selected
 								Pawn caster = currentPawn;
-								ArenaTile target = m_TempAttackData.m_SelectedTile;
-								AttackAction attack = m_TempAttackData.AttackOptions[m_TempAttackData.m_SelectedAttackIndex];
+								ArenaTile target = m_TempAttackData.SelectedTile;
+								AttackAction attack = m_TempAttackData.AttackOptions[m_TempAttackData.SelectedAttackIndex];
 								QueueAction(0, (int count) => Action_ExecuteAttack(count, currentPawn, target, attack));
 
 								NextDecisionPawn();
@@ -114,10 +119,10 @@ public class PlayerCoordinator : TeamTurnCoordinator
 			// All handle through tile cursor, so just wait here
 		}
 
-		if (m_TESTEndTurn)
+		if (m_PassTurnFlag)
 		{
 			endTurn = true;
-			m_TESTEndTurn = false;
+			m_PassTurnFlag = false;
 		}
 
 		if (endTurn)
@@ -136,6 +141,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		ClearConsideredTiles();
 		m_CurrentPawnIndex = 0;
 		m_TempAttackData = default;
+		m_TempAttackData.SelectedAttackIndex = -1;
 
 		if (turnState == TurnState.Movement)
 		{
@@ -153,7 +159,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 	private void Event_OnTileSelected(ArenaTile tile)
 	{
 		if (m_PreviousKnownState == TurnState.Attacking && m_TempAttackData.CurrentState == AttackData.State.AwaitingSelection)
-			m_TempAttackData.m_SelectedTile = tile;
+			m_TempAttackData.SelectedTile = tile;
 	}
 
 	private void SelectMovementTiles()
@@ -169,5 +175,23 @@ public class PlayerCoordinator : TeamTurnCoordinator
 
 		foreach (var tile in tiles)
 			tile.MarkAsConsidered();
+	}
+
+	public void FlagPassTurn()
+	{
+		m_PassTurnFlag = true;
+	}
+
+	public AttackAction[] CurrentAttackActions()
+	{
+		Assert.Message(PreviousKnownState == TurnState.Attacking, "Expected to be attacking");
+		return m_TempAttackData.AttackOptions;
+	}
+
+	public void SetCurrentAttackAction(int i)
+	{
+		Assert.Message(PreviousKnownState == TurnState.Attacking, "Expected to be attacking");
+		m_TempAttackData.SelectedAttackIndex = i;
+		m_TempAttackData.CurrentState = AttackData.State.ViewSelected;
 	}
 }

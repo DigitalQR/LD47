@@ -33,6 +33,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	
 	private List<TurnAction> m_ActionQueue = new List<TurnAction>();
 	private Queue<TurnCoordinator> m_CoordinatorQueue = new Queue<TurnCoordinator>();
+	private TurnCoordinator m_PreviousCoordinator = null;
 	private int m_DecisionCounter = 0;
 
 	protected override void SingletonInit()
@@ -63,9 +64,17 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 
 			if (coordinator != null)
 			{
+				if (m_PreviousCoordinator != coordinator)
+				{
+					EventHandler.Invoke("OnCoordinatorTurnBegin", coordinator);
+					m_PreviousCoordinator = coordinator;
+				}
+
 				// Only update this decision at a frame, if pending
 				if (coordinator.GenerateDecisions(m_CurrentState) == TurnCoordinator.DecisionState.Pending)
 					return;
+				
+				EventHandler.Invoke("OnCoordinatorTurnEnd", coordinator);
 			}
 
 			m_CoordinatorQueue.Dequeue();
@@ -90,6 +99,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	{
 		Assert.Message(m_CoordinatorQueue.Count == 0, "Coordinator queue is not empty");
 		Assert.Message(m_ActionQueue.Count == 0, "Action queue is not empty");
+		m_PreviousCoordinator = null;
 
 		switch (m_CurrentState)
 		{
