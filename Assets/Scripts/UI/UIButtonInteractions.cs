@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIButtonInteractions : MonoBehaviour
@@ -82,10 +83,12 @@ public class UIButtonInteractions : MonoBehaviour
 			ViewButtonGroup(m_MovementGroup);
 	}
 
-	private void Event_OnTeamCoordinatorDefeat(TeamTurnCoordinator coordinator)
+	private void Event_OnGameOver()
 	{
-		if (coordinator is PlayerCoordinator)
-			ViewButtonGroup(m_DefeatGroup);
+		PopupManager.Instance.CreateHeadingPopup3D("Game Over", (EncounterManager.Instance.BadEncounterCount - 1) + " encounters cleared", EncounterManager.Instance.CurrentEncounterContainer.transform.position, 1.5f, 30.0f);
+
+		CloseAnything();
+		ViewButtonGroup(m_DefeatGroup);
 	}
 
 	private void Event_OnEncounterBegin(EncounterType type)
@@ -150,5 +153,13 @@ public class UIButtonInteractions : MonoBehaviour
 	public void Button_MainMenu()
 	{
 		CloseAnything();
+
+		Scene scene = SceneManager.GetActiveScene();
+		SceneManager.LoadScene(scene.buildIndex);
+	}
+
+	public void Button_Quit()
+	{
+		Application.Quit();
 	}
 }

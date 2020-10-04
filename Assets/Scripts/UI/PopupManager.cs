@@ -24,13 +24,13 @@ public class PopupManager : SingletonBehaviour<PopupManager>
 		return m_Popup3DPrefab.Spawn(text, location, scale, colour, style);
 	}
 
-	public void CreateHeadingPopup3D(string text, string subHeading, Vector3 location, float scale)
+	public void CreateHeadingPopup3D(string text, string subHeading, Vector3 location, float scale, float extraLife = 2.0f)
 	{
 		PopupText3D heading = CreatePopup3D(text, location, scale, Color.white, FontStyle.BoldAndItalic);
 		PopupText3D subheading = CreatePopup3D(subHeading, location, scale * 0.5f, Color.grey, FontStyle.Italic);
 		subheading.transform.position += Vector3.down * scale * 0.15f;
 
-		heading.ExtendLifetime(2.0f);
-		subheading.ExtendLifetime(2.0f);
+		heading.ExtendLifetime(extraLife);
+		subheading.ExtendLifetime(extraLife);
 	}
 }

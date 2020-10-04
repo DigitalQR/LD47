@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2774993053177929965, guid: 608fbd0671878824091ff505bacfd15d, type: 3}
       propertyPath: m_AttackName
-      value: Pierce
+      value: Bite
       objectReference: {fileID: 0}
     - target: {fileID: 2774993053177929965, guid: 608fbd0671878824091ff505bacfd15d, type: 3}
       propertyPath: m_MinDamageAmount

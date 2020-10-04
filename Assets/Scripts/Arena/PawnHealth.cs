@@ -40,7 +40,7 @@ public class PawnHealth : MonoBehaviour
 
 	public int MaxHealth
 	{
-		get => m_Equipment.CurrentStats.MaxHealth;
+		get => m_Equipment ? m_Equipment.CurrentStats.MaxHealth : 1;
 	}
 
 	public float NormalizedHealth

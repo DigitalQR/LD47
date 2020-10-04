@@ -9,7 +9,8 @@ public enum TurnState
 {
 	Inactive,
 	Movement,
-	Attacking
+	Attacking,
+	Finished,
 }
 
 public enum TurnActionState
@@ -56,6 +57,9 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 
 	private void Update()
     {
+		if (m_CurrentState == TurnState.Finished)
+			return;
+
 		if (m_Coordinators == null || m_Coordinators.Count == 0)
 			return;
 		
@@ -158,7 +162,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 		if (coordinator is PlayerCoordinator)
 		{
 			EventHandler.Invoke("OnGameOver");
-			gameObject.SetActive(false);
+			m_CurrentState = TurnState.Finished;
 		}
 	}
 }

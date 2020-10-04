@@ -38,6 +38,7 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 	private GameObject m_CurrentEncounter = null;
 	private GameObject m_PreviousEncounter = null;
 	private int m_EncounterCount = 0;
+	private int m_BadEncounterCount = 0;
 
 	protected override void SingletonInit()
 	{
@@ -63,6 +64,11 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 	public int EncounterCount
 	{
 		get => m_EncounterCount;
+	}
+
+	public int BadEncounterCount
+	{
+		get => m_BadEncounterCount;
 	}
 
 	public float CurrentDifficulty
@@ -112,6 +118,7 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 		else
 		{
 			m_CurrentEncounterType = EncounterType.Enemies;
+			m_BadEncounterCount++;
 		}
 
 		var options = m_Encounters[m_CurrentEncounterType];

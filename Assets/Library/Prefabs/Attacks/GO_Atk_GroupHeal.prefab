@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2774993053177929965, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
       propertyPath: m_AttackName
-      value: Heal Wave
+      value: Heal Splash
       objectReference: {fileID: 0}
     - target: {fileID: 2774993053177929965, guid: 5e18cf26ad7cfd844b6bdce88419b3d4, type: 3}
       propertyPath: m_CastTarget
