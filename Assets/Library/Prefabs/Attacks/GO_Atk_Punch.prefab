@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95991bb158981fd498687947ae6390a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AttackName: Punch
+  m_AttackName: Jab
   m_CastCost: 1
   m_MinDamageAmount: 2
   m_MaxDamageAmount: 4

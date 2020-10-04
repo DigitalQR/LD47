@@ -32,7 +32,7 @@ public class EquipableTarget : MonoBehaviour
 
 	public bool HasAttackActions
 	{
-		get => EquippedItems.Where((i) => i.HasAttackActions).Any() || m_DefaultAttacks.Any();
+		get => m_DefaultAttacks.Any() || EquippedItems.Where((i) => i.HasAttackActions).Any();
 	}
 
 	public IEnumerable<AttackAction> AttackActions
@@ -40,11 +40,7 @@ public class EquipableTarget : MonoBehaviour
 		get
 		{
 			var attacks = EquippedItems.SelectMany((i) => i.AttackActions);
-
-			if (!attacks.Any())
-				return m_DefaultAttacks;
-
-			return attacks;
+			return attacks.Union(m_DefaultAttacks);
 		}
 	}
 

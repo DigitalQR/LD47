@@ -44,6 +44,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c864925574c070942a6c6524413d8fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OwnedPawnStatsDelta:
+    BaseStats:
+      MaxHealth: 0
+      DamageDealt: 0
+      DamageReduction: 0
+      Accuracy: 0
+      Speed: 0
+    RandomRange:
+      MaxHealth: 0
+      DamageDealt: 0
+      DamageReduction: 0
+      Accuracy: 0
+      Speed: 0
   m_TeamIndex: 1
   m_MaxMoveDistance: 1
   m_AIProfiles:
@@ -78,8 +91,10 @@ MonoBehaviour:
         m_SerializedCollections:
         - Weight: 1
           Items:
+          - Weight: 2
+            Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
           - Weight: 1
-            Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+            Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
           SubcollectionIndices: 
       MinEquipmentSpawns: 0
       MaxEquipmentSpawns: 1
@@ -99,7 +114,11 @@ MonoBehaviour:
         m_SerializedCollections:
         - Weight: 1
           Items:
+          - Weight: 3
+            Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
           - Weight: 1
+            Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
+          - Weight: 2
             Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
           SubcollectionIndices: 
       MinEquipmentSpawns: 2
@@ -120,8 +139,14 @@ MonoBehaviour:
         m_SerializedCollections:
         - Weight: 1
           Items:
-          - Weight: 1
+          - Weight: 3
             Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+          - Weight: 3
+            Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
+          - Weight: 1
+            Item: {fileID: 5731886465869359445, guid: d590b08ee76f4164c833aa79737ebfb7, type: 3}
+          - Weight: 3
+            Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
           SubcollectionIndices: 
       MinEquipmentSpawns: 3
       MaxEquipmentSpawns: 5
@@ -143,6 +168,12 @@ MonoBehaviour:
           Items:
           - Weight: 1
             Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+          - Weight: 1
+            Item: {fileID: 5731886465869359445, guid: d590b08ee76f4164c833aa79737ebfb7, type: 3}
+          - Weight: 1
+            Item: {fileID: 5786178624729087994, guid: f24566525b586b649a97d85594dad79c, type: 3}
+          - Weight: 1
+            Item: {fileID: 3959299713610760637, guid: af0763143a97b254e8b8978f2c0e243f, type: 3}
           SubcollectionIndices: 
       MinEquipmentSpawns: 5
       MaxEquipmentSpawns: 9
