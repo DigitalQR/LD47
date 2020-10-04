@@ -35,7 +35,10 @@ public abstract class TurnCoordinator : MonoBehaviour
 
 	public virtual DecisionState GenerateDecisions(TurnState turnState)
 	{
-		var decisionState = GenerateDecisionsInternal(turnState);
+		DecisionState decisionState = DecisionState.Finished;
+		if (turnState != TurnState.Inactive)
+			decisionState = GenerateDecisionsInternal(turnState);
+
 		m_PreviousKnownState = turnState;
 		return decisionState;
 	}

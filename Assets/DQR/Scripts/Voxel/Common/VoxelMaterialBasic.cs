@@ -24,7 +24,7 @@ namespace DQR.Voxel.Common
 		public void SetDefaults()
 		{
 			Colour = Color.black;
-			Tint = Vector4.zero;
+			Tint = new Vector4(1,0,0,0);
 			Specular = 0.0f;
 			Roughness = 0.5f;
 			CustomUVs = null;

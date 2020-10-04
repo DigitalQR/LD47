@@ -7,14 +7,28 @@ public class UIEnableButtonForTurn : MonoBehaviour
 {
 	[SerializeField]
 	private Button[] m_Targets = null;
-	
+
+	private PlayerCoordinator m_PrevCoordinator = null;
+
 	private void Event_OnCoordinatorTurnBegin(TurnCoordinator coordinator)
 	{
-		bool enableState = coordinator is PlayerCoordinator;
+		m_PrevCoordinator = coordinator as PlayerCoordinator;
+		bool enableState = m_PrevCoordinator != null;
 
 		foreach (var button in m_Targets)
 			button.interactable = enableState;
 
+	}
+
+	private void Update()
+	{
+		if (m_PrevCoordinator)
+		{
+			bool enableState = !m_PrevCoordinator.TileCursor.HasContent;
+
+			foreach (var button in m_Targets)
+				button.interactable = enableState;
+		}
 	}
 
 	private void Event_OnCoordinatorTurnEnd(TurnCoordinator coordinator)

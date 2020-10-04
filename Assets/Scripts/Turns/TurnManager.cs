@@ -99,22 +99,29 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	{
 		Assert.Message(m_CoordinatorQueue.Count == 0, "Coordinator queue is not empty");
 		Assert.Message(m_ActionQueue.Count == 0, "Action queue is not empty");
-		m_PreviousCoordinator = null;
 
 		switch (m_CurrentState)
 		{
 			case TurnState.Movement:
-				m_CurrentState = TurnState.Attacking;
+				SetCurrentState(TurnState.Attacking);
 				break;
 
 			case TurnState.Inactive:
 			case TurnState.Attacking:
-				m_CurrentState = TurnState.Movement;
+				SetCurrentState(TurnState.Movement);
 				break;
 		}
+	}
+
+	private void SetCurrentState(TurnState state)
+	{
+		m_CoordinatorQueue.Clear();
+		m_ActionQueue.Clear();
+		m_PreviousCoordinator = null;
 
 		//UnityEngine.Debug.Log($"Next phase '{m_CurrentState}'");
-		EventHandler.Invoke("OnTurnStateChange", m_CurrentState);
+		m_CurrentState = state;
+		EventHandler.Invoke("OnTurnStateChange", state);
 		
 		// Update coordinator queue (If requires input, prioritise)
 		foreach (var coordinator in m_Coordinators.OrderBy((c) => c.RequiresRealtimeInput ? 1 : 0))
@@ -125,5 +132,10 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 	{
 		m_ActionQueue.Add(action);
 		m_ActionQueue.Sort((a, b) => a.Priority - b.Priority);
+	}
+
+	private void Event_OnEncounterBegin(EncounterType type)
+	{
+		SetCurrentState(TurnState.Inactive);
 	}
 }

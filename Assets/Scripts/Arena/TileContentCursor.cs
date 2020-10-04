@@ -15,6 +15,7 @@ public class TileContentCursor : MonoBehaviour
 	private LayerMask m_CursorPositionMask = new LayerMask();
 	
 	private GameObject m_Content = null;
+	private ArenaTile m_LastClickedTile = null;
 
 	private bool m_IsPaused = false;
 
@@ -40,6 +41,11 @@ public class TileContentCursor : MonoBehaviour
 		}
 	}
 
+	public ArenaTile LastClickedTile
+	{
+		get => m_LastClickedTile;
+	}
+
 	private void LateUpdate()
 	{
 		if (m_ContentTarget != null)
@@ -59,8 +65,10 @@ public class TileContentCursor : MonoBehaviour
 
 	private void Event_OnTileSelected(ArenaTile tile)
 	{
-		if (!m_IsPaused) 
-		{           
+		if (!m_IsPaused)
+		{
+			m_LastClickedTile = tile;
+
 			// Swap contents
 			var oldContent = m_Content;
 			var newContent = tile.Content;
@@ -71,7 +79,7 @@ public class TileContentCursor : MonoBehaviour
 		}
 	}
 
-	public void SetPaused(bool paused)
+	public bool SetPaused(bool paused)
 	{
 		if (m_IsPaused != paused)
 		{
@@ -79,6 +87,10 @@ public class TileContentCursor : MonoBehaviour
 
 			if (paused)
 				Assert.Format(!HasContent, "Still contain content '{0}' when movement manager is being disabled", m_Content);
+
+			return true;
 		}
+
+		return false;
 	}
 }

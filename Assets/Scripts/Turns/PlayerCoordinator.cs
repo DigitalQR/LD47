@@ -23,6 +23,9 @@ public class PlayerCoordinator : TeamTurnCoordinator
 
 	};
 
+	[SerializeField]
+	private PawnSpawnSettings m_InitSettings = null;
+
 	private TileContentCursor m_TileCursor;
 	private bool m_PassTurnFlag = false;
 	
@@ -35,11 +38,18 @@ public class PlayerCoordinator : TeamTurnCoordinator
 
 		m_TileCursor = GetComponent<TileContentCursor>();
 		m_TileCursor.SetPaused(true);
+
+		SpawnPawns(m_InitSettings);
 	}
 
 	public override bool RequiresRealtimeInput
 	{
 		get => true;
+	}
+
+	public TileContentCursor TileCursor
+	{
+		get => m_TileCursor;
 	}
 
 	public Pawn GetCurrentDecisionPawn()
@@ -116,7 +126,17 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		}
 		else if (turnState == TurnState.Movement)
 		{
-			// All handle through tile cursor, so just wait here
+			// All handle through tile cursor, so just setup and wait
+			if (AnyPawnsInBlockingAnimation)
+			{
+				m_TileCursor.SetPaused(true);
+				ClearConsideredTiles();
+			}
+			else
+			{
+				if (m_TileCursor.SetPaused(false))
+					SelectMovementTiles();
+			}
 		}
 
 		if (m_PassTurnFlag)
@@ -142,12 +162,6 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		m_CurrentPawnIndex = 0;
 		m_TempAttackData = default;
 		m_TempAttackData.SelectedAttackIndex = -1;
-
-		if (turnState == TurnState.Movement)
-		{
-			SelectMovementTiles();
-			m_TileCursor.SetPaused(false);
-		}
 	}
 
 	private void Event_OnTileCursorContentChanged(TileContentCursor cursor)
@@ -169,7 +183,10 @@ public class PlayerCoordinator : TeamTurnCoordinator
 		var tiles = GetTeamTiles();
 
 		if (m_TileCursor.HasContent)
-			tiles = tiles.Where((t) => !t.HasContent);
+		{
+			Pawn currPawn = m_TileCursor.Content.GetComponent<Pawn>();
+			tiles = GetMovementTilesFor(currPawn).Where((t) => !t.HasContent);
+		}
 		else
 			tiles = tiles.Where((t) => t.HasContent);
 

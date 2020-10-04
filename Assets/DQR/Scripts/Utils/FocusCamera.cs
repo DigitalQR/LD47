@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DQR
 {
@@ -22,6 +23,11 @@ namespace DQR
 		[SerializeField]
 		private float m_MinTeleportDistance = 20.0f;
 
+		[SerializeField]
+		private UnityEvent m_OnTargetReached = null;
+
+		private bool m_HasReachedTarget = false;
+
 		public Transform FocusAnchor
 		{
 			get => m_FocusAnchor ? m_FocusAnchor : transform;
@@ -38,11 +44,24 @@ namespace DQR
 			get => m_CurrentFocus ? m_CurrentFocus.position : FocusAnchor.position;
 		}
 
+		public bool HasReachedTarget
+		{
+			get => m_HasReachedTarget;
+		}
+
+		public UnityEvent OnTargetReached
+		{
+			get => m_OnTargetReached;
+		}
+
 		private void LateUpdate()
-		{			
+		{
+			bool hadReached = m_HasReachedTarget;
+
 			if (Vector3.Distance(FocusAnchor.position, CurrentFocusPosition) >= m_MinTeleportDistance)
 			{
 				transform.position = CurrentFocusPosition;
+				m_HasReachedTarget = true;
 			}
 			else
 			{
@@ -57,7 +76,12 @@ namespace DQR
 					transform.position = Vector3.Slerp(currentPosition, targetPosition, t);
 				else
 					transform.position = Vector3.Lerp(currentPosition, targetPosition, t);
+
+				m_HasReachedTarget = Vector3.Distance(transform.position, targetPosition) <= 0.1f;
 			}
+
+			if (m_HasReachedTarget && !hadReached)
+				m_OnTargetReached.Invoke();
 		}
 	}
 }

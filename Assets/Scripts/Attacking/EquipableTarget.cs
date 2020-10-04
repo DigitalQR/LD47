@@ -13,6 +13,9 @@ public class EquipableTarget : MonoBehaviour
 	[SerializeField]
 	private SerializableDictionary<EquipableSlot, Transform> m_AvaliableSlots = null;
 
+	[SerializeField]
+	private AttackAction[] m_DefaultAttacks = null;
+
 	private Dictionary<EquipableSlot, EquipableItem> m_EquippedItems = new Dictionary<EquipableSlot, EquipableItem>();
 
 	public IEnumerable<EquipableItem> EquippedItems
@@ -22,12 +25,20 @@ public class EquipableTarget : MonoBehaviour
 
 	public bool HasAttackActions
 	{
-		get => EquippedItems.Where((i) => i.HasAttackActions).Any();
+		get => EquippedItems.Where((i) => i.HasAttackActions).Any() || m_DefaultAttacks.Any();
 	}
 
 	public IEnumerable<AttackAction> AttackActions
 	{
-		get => EquippedItems.SelectMany((i) => i.AttackActions);
+		get
+		{
+			var attacks = EquippedItems.SelectMany((i) => i.AttackActions);
+
+			if (!attacks.Any())
+				return m_DefaultAttacks;
+
+			return attacks;
+		}
 	}
 
 	public AttackStats BaseStats

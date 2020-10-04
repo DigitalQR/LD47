@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907d98513e1ca0a479733a8868d6d246, type: 3}
+  m_Name: VXB_Water
+  m_EditorClassIdentifier: 
+  m_Material:
+    Properties:
+      Colour: {r: 0.39607844, g: 0.27058825, b: 0.18431373, a: 1}
+      Tint: {x: 1, y: 0, z: 0, w: 0}
+      Specular: 0.668
+      Roughness: 0
+      CustomUVs: []
+    DressingLookup:
+      m_Elements: []
+      m_TemporaryKVP:
+        Key: 0
+        Value: 0
+      m_AppendTemporary: 0
+    DressingSettings: []

@@ -19,7 +19,7 @@ public class UIButtonInteractions : MonoBehaviour
 	private GameObject[] m_MovementGroup = null;
 
 	[SerializeField]
-	private GameObject[] m_ContinueGroup = null;
+	private GameObject[] m_EndEncounterGroup = null;
 
 	[SerializeField]
 	private GameObject[] m_DefeatGroup = null;
@@ -81,8 +81,15 @@ public class UIButtonInteractions : MonoBehaviour
 	{
 		if (coordinator is PlayerCoordinator)
 			ViewButtonGroup(m_DefeatGroup);
-		else
-			ViewButtonGroup(m_ContinueGroup);
+	}
+
+	private void Event_OnEncounterBegin(EncounterType type)
+	{
+	}
+
+	private void Event_OnEncounterEnd(EncounterType type)
+	{
+		ViewButtonGroup(m_EndEncounterGroup);
 	}
 
 	public void Button_Attack()
@@ -102,16 +109,19 @@ public class UIButtonInteractions : MonoBehaviour
 	{
 		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 
-		if (m_CurrentCoordinator && m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
-			m_CurrentCoordinator.NextDecisionPawn();
+		if (m_CurrentCoordinator)
+		{
+			if (m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
+				m_CurrentCoordinator.NextDecisionPawn();
+			else
+				m_CurrentCoordinator.FlagPassTurn();
+		}
 	}
 
 	public void Button_Continue()
 	{
 		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
-
-		if (m_CurrentCoordinator)
-			m_CurrentCoordinator.FlagPassTurn();
+		EncounterManager.Instance.SpawnNextEncounter();
 	}
 
 	public void Button_MainMenu()

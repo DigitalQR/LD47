@@ -39,6 +39,12 @@ public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 		get => m_ArenaTiles.Values;
 	}
 
+	private void Event_OnEncounterBegin(EncounterType type)
+	{
+		transform.position = EncounterManager.Instance.CurrentEncounterContainer.transform.position;
+		RegenerateBoard();
+	}
+
 	public void RegenerateBoard()
 	{
 		// Create container to contain every effect on this board
@@ -64,6 +70,8 @@ public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 
 		for (int i = 0; i < MaxTeamCount; ++i)
 			RegenerateTeamArea(i);
+
+		EventHandler.Invoke("OnRegenerateBoard", this);
 	}
 
 	private void RegenerateTeamArea(int teamIndex)
@@ -99,6 +107,11 @@ public class ArenaBoard : SingletonBehaviour<ArenaBoard>
 	public IEnumerable<ArenaTile> GetTilesForTeam(int teamIndex)
 	{
 		return AllArenaTiles.Where((tile) => tile.TeamIndex == teamIndex);
+	}
+
+	public IEnumerable<ArenaTile> GetMovementTiles(Vector2Int coord, int teamIndex, int maxDistance)
+	{
+		return GetTilesForTeam(teamIndex).Where((tile) => tile.GetCoordDistance(coord) <= maxDistance);
 	}
 
 	public bool TryGetTile(Vector2Int coord, out ArenaTile tile)

@@ -118,6 +118,15 @@ public class Pawn : MonoBehaviour
 		if (m_Animator)
 			m_Animator.SetFacingDirection(facingDir);
 	}
+
+	private void Event_OnRegenerateBoard(ArenaBoard board)
+	{
+		if (m_CurrentTile != null && board.TryGetTile(m_CurrentTile.Coord, out ArenaTile newTile))
+		{
+			m_CurrentTile = null;
+			MoveToTile(newTile, true);
+		}
+	}
 	
 	public void ApplyRandomVariantion()
 	{

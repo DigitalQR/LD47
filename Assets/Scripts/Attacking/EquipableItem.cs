@@ -91,7 +91,7 @@ public class EquipableItem : MonoBehaviour
 		}
 	}
 
-	public void ApplyRandomVariantion()
+	public void ApplyVariantion()
 	{
 		m_TintVariation.ApplyVariationTo(gameObject);
 	}

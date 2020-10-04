@@ -6,8 +6,8 @@ public class UIAttackInteractions : MonoBehaviour
 {
 	[SerializeField]
 	private UIAttackButton m_DefaultButton = null;
-
-	private bool m_IsOpen = false;
+	
+	private PlayerCoordinator m_RecentCoordinator = null;
 
 	private void Start()
 	{
@@ -16,7 +16,7 @@ public class UIAttackInteractions : MonoBehaviour
 
 	public void ToggleOpen(PlayerCoordinator coordinator)
 	{
-		if (m_IsOpen)
+		if (m_RecentCoordinator == coordinator)
 			CloseMenu(coordinator);
 		else
 			OpenMenu(coordinator);
@@ -24,8 +24,9 @@ public class UIAttackInteractions : MonoBehaviour
 
 	public void OpenMenu(PlayerCoordinator coordinator)
 	{
-		if (!m_IsOpen)
+		if (m_RecentCoordinator != coordinator)
 		{
+			m_RecentCoordinator = coordinator;
 			DestroyExistingOptions();
 
 			// Build options
@@ -37,20 +38,18 @@ public class UIAttackInteractions : MonoBehaviour
 				newButton.PopulateContent(coordinator, attackOptions[i], i);
 				newButton.gameObject.SetActive(true);
 			}
-
-			m_IsOpen = true;
 		}
 	}
 
-	public void CloseMenu(PlayerCoordinator coordinator)
+	public void CloseMenu(PlayerCoordinator coordinator, bool clearAction = true)
 	{
-		if (m_IsOpen)
+		if (m_RecentCoordinator == coordinator)
 		{
-			if (coordinator != null && coordinator.PreviousKnownState == TurnState.Attacking)
+			m_RecentCoordinator = null;
+			if (clearAction && coordinator != null && coordinator.PreviousKnownState == TurnState.Attacking)
 				coordinator.SetCurrentAttackAction(-1);
 
 			DestroyExistingOptions();
-			m_IsOpen = false;
 		}
 	}
 
@@ -60,6 +59,17 @@ public class UIAttackInteractions : MonoBehaviour
 		{
 			if (button != m_DefaultButton)
 				Destroy(button.gameObject);
+		}
+	}
+
+	private void Event_OnTileSelected(ArenaTile tile)
+	{
+		if (m_RecentCoordinator != null)
+		{
+			if (m_RecentCoordinator.PreviousKnownState == TurnState.Attacking)
+			{
+				CloseMenu(m_RecentCoordinator, false);
+			}
 		}
 	}
 }

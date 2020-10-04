@@ -1,4 +1,5 @@
-﻿using DQR.Debug;
+﻿using DQR;
+using DQR.Debug;
 using DQR.Types;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +48,12 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 		new KnownEvent("OnPawnKilled", typeof(Pawn)),
 		new KnownEvent("OnPawnAttacked", typeof(DamageEvent)),
 		new KnownEvent("OnPawnDamaged", typeof(DamageEvent)),
+
+		new KnownEvent("OnRegenerateBoard", typeof(ArenaBoard)),
+
+		new KnownEvent("OnEncounterBegin", typeof(EncounterType)),
+		new KnownEvent("OnEncounterEnd", typeof(EncounterType)),
+		new KnownEvent("OnEncounterInCameraView", typeof(FocusCamera)),
 	};
 #endif
 	
@@ -54,7 +61,7 @@ public class EventHandler : SingletonBehaviour<EventHandler>
 	{
 #if DQR_ASSERTS
 		KnownEvent foundEvent = s_KnownEvents.Where((e) => e.Name == eventName).FirstOrDefault();
-		Assert.Format(foundEvent != null && foundEvent.ParamsMatch(param), "Invalid event match found for '{0}'", eventName);
+		Assert.Format(foundEvent != null && foundEvent.ParamsMatch(param), "Invalid event match found for '{0}'", eventName.ToString());
 #endif
 		BroadcastMessage("Event_" + eventName, param, SendMessageOptions.DontRequireReceiver);
 	}

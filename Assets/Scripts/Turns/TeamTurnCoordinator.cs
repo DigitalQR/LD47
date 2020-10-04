@@ -1,4 +1,5 @@
 ﻿using DQR.Debug;
+using DQR.Types;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,34 @@ using UnityEngine;
 
 public abstract class TeamTurnCoordinator : TurnCoordinator
 {
+	[System.Serializable]
+	public class PawnSpawnSettings
+	{
+		[Range(1, 9)]
+		public int MinPawnSpawns = 1;
+
+		[Range(1, 9)]
+		public int MaxPawnSpawns = 3;
+		public WeightedCollection<Pawn> PawnOptions = null;
+
+		public int MinEquipmentSpawns = 0;
+		public int MaxEquipmentSpawns = 3;
+		public WeightedCollection<EquipableItem> EquipmentOptions = null;
+		public bool ApplyVariationToWeapons = true;
+	}
+
 	[SerializeField]
 	private int m_TeamIndex = 0;
 
+	[SerializeField]
+	private int m_MaxMoveDistance = 1;
+
 	private List<Pawn> m_Pawns = new List<Pawn>();
-
-	// TESTING
-	public Pawn m_TESTPrefab;
-	public int m_TESTCount;
-
+	private Dictionary<Pawn, IEnumerable<ArenaTile>> m_PawnMovementOption = new Dictionary<Pawn, IEnumerable<ArenaTile>>();
+	
 	protected override void Start()
 	{
 		base.Start();
-		InstantiatePawns(m_TESTPrefab, m_TESTCount);
 	}
 
 	private void LateUpdate()
@@ -40,7 +56,21 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 			m_PreviousKnownState = turnState;
 			return DecisionState.Finished;
 		}
-		
+
+		if (m_PreviousKnownState != turnState && turnState == TurnState.Movement)
+		{
+			m_PawnMovementOption.Clear();
+
+			// Generate movement for each pawn
+			var teamTiles = GetTeamTiles();
+
+			foreach (var pawn in m_Pawns)
+			{
+				var pawnTiles = teamTiles.Where((t) => t.GetCoordDistance(pawn.CurrentTile) <= m_MaxMoveDistance);
+				m_PawnMovementOption.Add(pawn, pawnTiles.ToArray());
+			}
+		}
+
 		return base.GenerateDecisions(turnState);
 	}
 
@@ -52,6 +82,14 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 	public IEnumerable<ArenaTile> GetEnemyTiles()
 	{
 		return ArenaBoard.Instance.AllArenaTiles.Where((t) => t.TeamIndex != m_TeamIndex);
+	}
+
+	public IEnumerable<ArenaTile> GetMovementTilesFor(Pawn pawn)
+	{
+		if (m_PawnMovementOption.TryGetValue(pawn, out var tiles))
+			return tiles;
+
+		return new ArenaTile[0];
 	}
 
 	public IEnumerable<Pawn> OwnedPawns
@@ -69,6 +107,53 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		return index < m_Pawns.Count ? m_Pawns[index] : null;
 	}
 
+	public bool AnyPawnsInBlockingAnimation
+	{
+		get => m_Pawns.Where((p) => p.InBlockingAnimating).Any();
+	}
+
+	public void SpawnPawns(PawnSpawnSettings settings)
+	{
+		int pawnCount = Random.Range(settings.MinPawnSpawns, settings.MaxPawnSpawns + 1);
+		int equipCount = Random.Range(settings.MinEquipmentSpawns, settings.MaxEquipmentSpawns + 1);
+
+		for (int i = 0; i < pawnCount; ++i)
+		{
+			Pawn prefab = settings.PawnOptions.SelectRandom();
+			InstantiatePawn(prefab);
+		}
+
+		for (int i = 0; i < equipCount; ++i)
+		{
+			EquipableItem prefab = settings.EquipmentOptions.SelectRandom();
+			if (prefab)
+			{
+				EquipableItem newItem = Instantiate(prefab);
+
+				if(settings.ApplyVariationToWeapons)
+					newItem.ApplyVariantion();
+
+				bool hasBeenEquiped = false;
+
+				for (int n = 0; n < 10; ++n)
+				{
+					int randomIndex = Random.Range(0, OwnedPawnCount);
+					Pawn pawn = GetPawn(randomIndex);
+					EquipableTarget target = pawn.GetComponent<EquipableTarget>();
+
+					if (target.TryEquipItem(newItem))
+					{
+						hasBeenEquiped = true;
+						break;
+					}
+				}
+
+				if (!hasBeenEquiped)
+					Destroy(newItem.gameObject);
+			}
+		}
+	}
+
 	public IEnumerable<Pawn> InstantiatePawns(Pawn prefab, int count)
 	{
 		List<Pawn> objs = new List<Pawn>();
@@ -80,6 +165,9 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 
 	public Pawn InstantiatePawn(Pawn prefab)
 	{
+		if (prefab == null)
+			return null;
+
 		foreach (var tile in GetTeamTiles())
 		{
 			if (!tile.HasContent)
