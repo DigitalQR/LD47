@@ -72,7 +72,7 @@ public class EncounterManager : SingletonBehaviour<EncounterManager>
 
 	private void QueueGoodEncounter()
 	{
-		m_NextGoodEncouter = m_EncounterCount + Mathf.RoundToInt(Random.Range(m_MinGoodEncounterWait, m_MaxGoodEncounterWait + 1) * m_CurrentDifficulty);
+		m_NextGoodEncouter = m_EncounterCount + Mathf.RoundToInt(Random.Range(m_MinGoodEncounterWait, m_MaxGoodEncounterWait + 1) * Mathf.Max(1.0f, m_CurrentDifficulty));
 	}
 
 	public void EndCurrentEncounter()

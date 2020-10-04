@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1784199333455262652, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3855741827403900636, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
       propertyPath: m_NameOptions.m_SerializedCollections.Array.data[0].Items.Array.size
       value: 2
@@ -411,12 +419,49 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.085
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.002
+      objectReference: {fileID: 0}
     - target: {fileID: 7872034040073504236, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
       propertyPath: m_AvaliableSlots.m_Elements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872034040073504236, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_AvaliableSlots.m_TemporaryKVP.Key
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7872034040073504236, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_AvaliableSlots.m_Elements.Array.data[0].Key
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872034040073504236, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+      propertyPath: m_AvaliableSlots.m_Elements.Array.data[0].Value
+      value: 
+      objectReference: {fileID: 8343693583097473421}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+--- !u!4 &8343693583097473421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7462651306931946177, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
+  m_PrefabInstance: {fileID: 1466599838198246220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5867336542546878072 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4987349249770353972, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}

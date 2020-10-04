@@ -18,9 +18,12 @@ public class EncounterCamera : MonoBehaviour
 
 	private void OnCameraFocusReached()
 	{
-		EventHandler.Invoke("OnEncounterInCameraView", m_CurrCamera);
+		if (m_CurrCamera != null)
+		{
+			EventHandler.Invoke("OnEncounterInCameraView", m_CurrCamera);
 
-		m_CurrCamera.OnTargetReached.RemoveListener(OnCameraFocusReached);
-		m_CurrCamera = null;
+			m_CurrCamera.OnTargetReached.RemoveListener(OnCameraFocusReached);
+			m_CurrCamera = null;
+		}
 	}
 }

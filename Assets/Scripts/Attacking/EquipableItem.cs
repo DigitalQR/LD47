@@ -81,17 +81,24 @@ public class EquipableItem : MonoBehaviour
 			if (m_AttackActions == null)
 			{
 				MoveSet moveset = m_MoveSetOptions.GetCurrent();
-				HashSet<AttackAction> actionsToSpawn = new HashSet<AttackAction>();
-				int count = Random.Range(moveset.MinCount, moveset.MaxCount + 1);
-
-				for (int i = 0; i < count; ++i)
-					actionsToSpawn.Add(moveset.Actions.SelectRandom());
-
-				m_AttackActions = new List<AttackAction>();
-				foreach (var action in actionsToSpawn)
+				if (moveset == null)
 				{
-					AttackAction newAction = Instantiate(action, transform);
-					m_AttackActions.Add(newAction);
+					m_AttackActions = new List<AttackAction>();
+				}
+				else
+				{
+					HashSet<AttackAction> actionsToSpawn = new HashSet<AttackAction>();
+					int count = Random.Range(moveset.MinCount, moveset.MaxCount + 1);
+
+					for (int i = 0; i < count; ++i)
+						actionsToSpawn.Add(moveset.Actions.SelectRandom());
+
+					m_AttackActions = new List<AttackAction>();
+					foreach (var action in actionsToSpawn)
+					{
+						AttackAction newAction = Instantiate(action, transform);
+						m_AttackActions.Add(newAction);
+					}
 				}
 			}
 
