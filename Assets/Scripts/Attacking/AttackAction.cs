@@ -229,6 +229,8 @@ public class AttackAction : MonoBehaviour
 		m_CurrentTarget = target;
 		m_DamagedPawns = null;
 
+		PopupManager.Instance.CreatePopup3D(AttackName, caster.transform.position, 1.0f, Color.white, FontStyle.Italic);
+
 		if (m_Animator)
 			m_Animator.BeginAttack(caster, target);
 		else
@@ -250,6 +252,7 @@ public class AttackAction : MonoBehaviour
 				damageEvent.DamageAmount = Random.Range(m_MinDamageAmount, m_MaxDamageAmount + 1);
 				damageEvent.Target = targetPawn;
 				damageEvent.Accuracy = m_Accuracy;
+				m_CurrentCaster.CurrentStats.ModifyDispatchedEvent(damageEvent);
 
 				m_DamagedPawns.Add(targetPawn);
 				targetPawn.ReceiveDamage(damageEvent);

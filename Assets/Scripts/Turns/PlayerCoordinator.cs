@@ -113,8 +113,7 @@ public class PlayerCoordinator : TeamTurnCoordinator
 								Pawn caster = currentPawn;
 								ArenaTile target = m_TempAttackData.SelectedTile;
 								AttackAction attack = m_TempAttackData.AttackOptions[m_TempAttackData.SelectedAttackIndex];
-								QueueAction(0, (int count) => Action_ExecuteAttack(count, currentPawn, target, attack));
-
+								QueueAttack(caster, target, attack);
 								NextDecisionPawn();
 							}
 							break;

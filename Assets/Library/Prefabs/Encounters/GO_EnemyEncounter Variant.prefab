@@ -46,6 +46,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TeamIndex: 1
   m_MaxMoveDistance: 1
+  m_AIProfiles:
+    m_Groups:
+    - MinDifficulty: 0
+      Target:
+        Profiles:
+          m_SerializedCollections:
+          - Weight: 1
+            Items:
+            - Weight: 1
+              Item: {fileID: 4265204861518382415, guid: fd0150a3c71e41448ac4336d5c7fb76d, type: 3}
+            SubcollectionIndices: 
 --- !u!114 &4833161871324968878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +73,7 @@ MonoBehaviour:
   - MinDifficulty: 0
     PawnSettings:
       MinPawnSpawns: 1
-      MaxPawnSpawns: 3
+      MaxPawnSpawns: 2
       PawnOptions:
         m_SerializedCollections:
         - Weight: 1
@@ -71,7 +82,7 @@ MonoBehaviour:
             Item: {fileID: 4906330967739520182, guid: 4f6920cbf47213c44bd0028381dece56, type: 3}
           SubcollectionIndices: 
       MinEquipmentSpawns: 0
-      MaxEquipmentSpawns: 3
+      MaxEquipmentSpawns: 1
       EquipmentOptions:
         m_SerializedCollections:
         - Weight: 1

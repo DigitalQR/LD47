@@ -226,7 +226,14 @@ public abstract class TeamTurnCoordinator : TurnCoordinator
 		return TurnActionState.Finished;
 	}
 
-	protected TurnActionState Action_ExecuteAttack(int count, Pawn caster, ArenaTile target, AttackAction attack)
+	protected void QueueAttack(Pawn caster, ArenaTile target, AttackAction attack)
+	{
+		// TODO - Attack priority?
+		int priority = Mathf.RoundToInt(caster.CurrentStats.Speed * 100);
+		QueueAction(priority, (int count) => Action_ExecuteAttack(count, caster, target, attack));
+	}
+
+	private TurnActionState Action_ExecuteAttack(int count, Pawn caster, ArenaTile target, AttackAction attack)
 	{
 		if (caster == null || caster.IsPendingDestroy)
 			return TurnActionState.Finished;

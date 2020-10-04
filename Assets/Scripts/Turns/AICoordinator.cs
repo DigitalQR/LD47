@@ -1,13 +1,33 @@
-﻿using System.Collections;
+﻿using DQR.Types;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class AICoordinator : TeamTurnCoordinator
 {
+	[System.Serializable]
+	private class AIProfileOption
+	{
+		public WeightedCollection<AIProfile> Profiles = null;
+	}
+
+	[SerializeField]
+	private DifficultyGroup<AIProfileOption> m_AIProfiles = null;
+
+	private AIProfile m_Profile = null;
+
 	public override bool RequiresRealtimeInput
 	{
 		get => false;
+	}
+
+	protected override void Start()
+	{
+		base.Start();
+
+		var prefab = m_AIProfiles.GetCurrent().Profiles.SelectRandom();
+		m_Profile = Instantiate(prefab, transform);
 	}
 
 	protected override DecisionState GenerateDecisionsInternal(TurnState turnState)
@@ -17,6 +37,17 @@ public class AICoordinator : TeamTurnCoordinator
 			QueueAction(0, Action_MovePawns);
 			QueueAction(0, Action_WaitOnPawnAnimations);
 		}
+		else if (turnState == TurnState.Attacking)
+		{
+			//Action_ExecuteAttack()
+			foreach (var pawn in OwnedPawns)
+			{
+				if (pawn.HasAttackActions && m_Profile.ChooseAttackAction(this, pawn, out AttackAction attack, out ArenaTile target))
+					QueueAttack(pawn, target, attack);
+			}
+			QueueAction(int.MaxValue, Action_WaitOnPawnAnimations);
+		}
+
 		return DecisionState.Finished;
 	}
 
@@ -61,7 +92,7 @@ public class AICoordinator : TeamTurnCoordinator
 
 	private float CaclulateMovementScore(Dictionary<Pawn, ArenaTile> config)
 	{
-		return 1.0f;
+		return m_Profile.CalculateMovementScore(this, config);
 	}
 
 	private Dictionary<Pawn, ArenaTile> SelectConfiguration(int countToTest = 10)

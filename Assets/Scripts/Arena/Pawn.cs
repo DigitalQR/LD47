@@ -46,6 +46,11 @@ public class Pawn : MonoBehaviour
 		set => m_TeamIndex = value;
 	}
 
+	public AttackStats CurrentStats
+	{
+		get => m_Equipment.CurrentStats;
+	}
+
 	public Vector2Int FacingCoordDir
 	{
 		get => m_FacingDirection;
