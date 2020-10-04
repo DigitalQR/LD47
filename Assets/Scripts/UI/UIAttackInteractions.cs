@@ -14,6 +14,14 @@ public class UIAttackInteractions : MonoBehaviour
 		m_DefaultButton.gameObject.SetActive(false);
 	}
 
+	public void ToggleOpen(PlayerCoordinator coordinator)
+	{
+		if (m_IsOpen)
+			CloseMenu(coordinator);
+		else
+			OpenMenu(coordinator);
+	}
+
 	public void OpenMenu(PlayerCoordinator coordinator)
 	{
 		if (!m_IsOpen)
@@ -34,10 +42,13 @@ public class UIAttackInteractions : MonoBehaviour
 		}
 	}
 
-	public void CloseMenu()
+	public void CloseMenu(PlayerCoordinator coordinator)
 	{
 		if (m_IsOpen)
 		{
+			if (coordinator != null && coordinator.PreviousKnownState == TurnState.Attacking)
+				coordinator.SetCurrentAttackAction(-1);
+
 			DestroyExistingOptions();
 			m_IsOpen = false;
 		}

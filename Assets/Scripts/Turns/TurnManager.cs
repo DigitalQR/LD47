@@ -113,7 +113,7 @@ public class TurnManager : SingletonBehaviour<TurnManager>
 				break;
 		}
 
-		UnityEngine.Debug.Log($"Next phase '{m_CurrentState}'");
+		//UnityEngine.Debug.Log($"Next phase '{m_CurrentState}'");
 		EventHandler.Invoke("OnTurnStateChange", m_CurrentState);
 		
 		// Update coordinator queue (If requires input, prioritise)

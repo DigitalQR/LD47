@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 16f82db1f55cdc84aa577e640d61e06f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 9611dd9e149569e45a5b867af9fe9139, type: 3}
+  importFrameOrientation: 0
+  importSettings:
+    FrameCount: 1
+    FlipFrameDirection: 1
+    TextureLayout: 0500000006000000
+    FrameDurationScale: 1
+    DefaultFrameDuration: 1
+    FrameDurationOverrides:
+      elements: []
+      temporaryKVP:
+        Key: 0
+        Value: 0
+      appendTemporary: 0
+    PlaybackMode: 0
+    ModelSettings:
+      Scale: {x: 1, y: 1, z: 1}
+      NormalizedPivot: {x: 0.5, y: 0.5, z: 0.5}

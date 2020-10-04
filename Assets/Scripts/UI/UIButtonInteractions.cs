@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class UIButtonInteractions : MonoBehaviour
 {
 	[SerializeField]
+	private GameObject m_WorldSpacePointer = null;
+
+	[SerializeField]
 	private UIAttackInteractions m_AttackInteractions = null;
 
 	[Header("Buttons")]
@@ -23,16 +26,37 @@ public class UIButtonInteractions : MonoBehaviour
 
 	private PlayerCoordinator m_CurrentCoordinator = null;
 
+	private void Start()
+	{
+		m_WorldSpacePointer.SetActive(false);
+	}
+
+	private void Update()
+	{
+		bool showState = false;
+
+		if (m_CurrentCoordinator && m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
+		{
+			Pawn pawn = m_CurrentCoordinator.GetCurrentDecisionPawn();
+			if (pawn)
+			{
+				m_WorldSpacePointer.transform.position = pawn.transform.position;
+				showState = true;
+			}
+		}
+
+		m_WorldSpacePointer.SetActive(showState);
+	}
+
 	private void Event_OnCoordinatorTurnBegin(TurnCoordinator coordinator)
 	{
 		m_CurrentCoordinator = coordinator as PlayerCoordinator;
-
 	}
 
 	private void Event_OnCoordinatorTurnEnd(TurnCoordinator coordinator)
 	{
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 		m_CurrentCoordinator = null;
-		m_AttackInteractions.CloseMenu();
 	}
 
 	private void ViewButtonGroup(GameObject[] group)
@@ -65,18 +89,18 @@ public class UIButtonInteractions : MonoBehaviour
 	{
 		if (m_CurrentCoordinator && m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
 		{
-			m_AttackInteractions.OpenMenu(m_CurrentCoordinator);
+			m_AttackInteractions.ToggleOpen(m_CurrentCoordinator);
 		}
 	}
 	
 	public void Button_Bag()
 	{
-		m_AttackInteractions.CloseMenu();
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 	}
 
 	public void Button_Pass()
 	{
-		m_AttackInteractions.CloseMenu();
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 
 		if (m_CurrentCoordinator && m_CurrentCoordinator.PreviousKnownState == TurnState.Attacking)
 			m_CurrentCoordinator.NextDecisionPawn();
@@ -84,7 +108,7 @@ public class UIButtonInteractions : MonoBehaviour
 
 	public void Button_Continue()
 	{
-		m_AttackInteractions.CloseMenu();
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 
 		if (m_CurrentCoordinator)
 			m_CurrentCoordinator.FlagPassTurn();
@@ -92,6 +116,6 @@ public class UIButtonInteractions : MonoBehaviour
 
 	public void Button_MainMenu()
 	{
-		m_AttackInteractions.CloseMenu();
+		m_AttackInteractions.CloseMenu(m_CurrentCoordinator);
 	}
 }
