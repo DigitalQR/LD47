@@ -112,7 +112,9 @@ public class Pawn : MonoBehaviour
 	public void MoveToTile(ArenaTile target, bool shouldAnimate)
 	{
 		Vector3 startPosition = transform.position;
-		target.Content = gameObject;
+
+		if(target.Content != gameObject)
+			target.Content = gameObject;
 
 		if (shouldAnimate && m_Animator != null)
 		{
